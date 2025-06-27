@@ -21,7 +21,10 @@ export class SignatureController {
       if (!errors.isEmpty()) {
         const apiError: ApiError = {
           error: 'Validation failed',
-          details: errors.array().map(err => err.msg).join(', '),
+          details: errors
+            .array()
+            .map(err => err.msg)
+            .join(', '),
         };
         res.status(400).json(apiError);
         return;

@@ -8,12 +8,14 @@ export const verifySignatureValidation: ValidationChain[] = [
     .withMessage('Message must be a string')
     .isLength({ min: 1, max: 1000 })
     .withMessage('Message must be between 1 and 1000 characters'),
-  
+
   body('signature')
     .notEmpty()
     .withMessage('Signature is required')
     .isString()
     .withMessage('Signature must be a string')
     .matches(/^0x[a-fA-F0-9]{130}$/)
-    .withMessage('Signature must be a valid hex string of 130 characters starting with 0x'),
+    .withMessage(
+      'Signature must be a valid hex string of 130 characters starting with 0x'
+    ),
 ];

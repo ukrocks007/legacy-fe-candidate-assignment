@@ -6,7 +6,10 @@ const router = Router();
 const signatureController = new SignatureController();
 
 // Health check
-router.get('/health', signatureController.healthCheck.bind(signatureController));
+router.get(
+  '/health',
+  signatureController.healthCheck.bind(signatureController)
+);
 
 // Signature verification
 router.post(

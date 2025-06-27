@@ -13,12 +13,14 @@ export const createApp = (): express.Application => {
   app.use(helmet());
 
   // CORS configuration
-  app.use(cors({
-    origin: config.corsOrigin,
-    credentials: true,
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  }));
+  app.use(
+    cors({
+      origin: config.corsOrigin,
+      credentials: true,
+      methods: ['GET', 'POST'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    })
+  );
 
   // Rate limiting
   const limiter = rateLimit({

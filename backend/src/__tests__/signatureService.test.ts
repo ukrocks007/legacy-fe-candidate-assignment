@@ -11,7 +11,8 @@ describe('SignatureService', () => {
     it('should return invalid for empty message', async () => {
       const result = await signatureService.verifySignature({
         message: '',
-        signature: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef12'
+        signature:
+          '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef12',
       });
 
       expect(result.isValid).toBe(false);
@@ -21,7 +22,7 @@ describe('SignatureService', () => {
     it('should return invalid for empty signature', async () => {
       const result = await signatureService.verifySignature({
         message: 'Hello World',
-        signature: ''
+        signature: '',
       });
 
       expect(result.isValid).toBe(false);
@@ -31,7 +32,7 @@ describe('SignatureService', () => {
     it('should return invalid for malformed signature', async () => {
       const result = await signatureService.verifySignature({
         message: 'Hello World',
-        signature: 'invalid-signature'
+        signature: 'invalid-signature',
       });
 
       expect(result.isValid).toBe(false);
@@ -42,7 +43,7 @@ describe('SignatureService', () => {
       const testMessage = 'Test message';
       const result = await signatureService.verifySignature({
         message: testMessage,
-        signature: 'invalid-signature'
+        signature: 'invalid-signature',
       });
 
       expect(result.originalMessage).toBe(testMessage);

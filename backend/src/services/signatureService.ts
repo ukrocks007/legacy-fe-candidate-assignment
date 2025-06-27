@@ -1,5 +1,8 @@
 import { ethers } from 'ethers';
-import { SignatureVerificationRequest, SignatureVerificationResponse } from '../types';
+import {
+  SignatureVerificationRequest,
+  SignatureVerificationResponse,
+} from '../types';
 
 export class SignatureService {
   /**
@@ -34,7 +37,7 @@ export class SignatureService {
       if (process.env.NODE_ENV !== 'test') {
         console.error('Signature verification error:', error);
       }
-      
+
       return {
         isValid: false,
         signer: null,

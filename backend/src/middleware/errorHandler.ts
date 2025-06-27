@@ -3,9 +3,9 @@ import { ApiError } from '../types';
 
 export const errorHandler = (
   error: Error,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ): void => {
   console.error('Unhandled error:', error);
 
@@ -17,10 +17,7 @@ export const errorHandler = (
   res.status(500).json(apiError);
 };
 
-export const notFoundHandler = (
-  req: Request,
-  res: Response
-): void => {
+export const notFoundHandler = (req: Request, res: Response): void => {
   const apiError: ApiError = {
     error: 'Route not found',
     details: `Cannot ${req.method} ${req.originalUrl}`,

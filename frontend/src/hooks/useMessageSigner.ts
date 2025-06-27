@@ -13,74 +13,83 @@ export const useMessageSigner = () => {
 
   const { primaryWallet } = useDynamicContext();
 
-  const signMessage = useCallback(async (message: string): Promise<SignedMessage | null> => {
-    if (!primaryWallet) {
-      setError('No wallet connected');
-      return null;
-    }
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // Sign the message using Dynamic's wallet connector
-      const signature = await primaryWallet.signMessage(message);
-      
-      if (!signature) {
-        throw new Error('Failed to sign message');
-      }
-      
-      const address = primaryWallet.address;
-      if (!address) {
-        throw new Error('Failed to get address');
+  const signMessage = useCallback(
+    async (message: string): Promise<SignedMessage | null> => {
+      if (!primaryWallet) {
+        setError('No wallet connected');
+        return null;
       }
 
-      const signedMessage: SignedMessage = {
-        message,
-        signature,
-        address,
-        timestamp: new Date(),
-      };
+      setIsLoading(true);
+      setError(null);
 
-      const updatedMessages = [...signedMessages, signedMessage];
-      setSignedMessages(updatedMessages);
-      localStorage.setItem('signedMessages', JSON.stringify(updatedMessages));
+      try {
+        // Sign the message using Dynamic's wallet connector
+        const signature = await primaryWallet.signMessage(message);
 
-      return signedMessage;
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign message');
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [primaryWallet, signedMessages]);
+        if (!signature) {
+          throw new Error('Failed to sign message');
+        }
 
-  const verifySignature = useCallback(async (message: string, signature: string): Promise<VerificationResult | null> => {
-    setIsLoading(true);
-    setError(null);
+        const address = primaryWallet.address;
+        if (!address) {
+          throw new Error('Failed to get address');
+        }
 
-    try {
-      const response = await fetch(`${API_BASE_URL}/verify-signature`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message, signature }),
-      });
+        const signedMessage: SignedMessage = {
+          message,
+          signature,
+          address,
+          timestamp: new Date(),
+        };
 
-      if (!response.ok) {
-        throw new Error('Failed to verify signature');
+        const updatedMessages = [...signedMessages, signedMessage];
+        setSignedMessages(updatedMessages);
+        localStorage.setItem('signedMessages', JSON.stringify(updatedMessages));
+
+        return signedMessage;
+      } catch (err: any) {
+        setError(err.message || 'Failed to sign message');
+        return null;
+      } finally {
+        setIsLoading(false);
       }
+    },
+    [primaryWallet, signedMessages]
+  );
 
-      const result: VerificationResult = await response.json();
-      return result;
-    } catch (err: any) {
-      setError(err.message || 'Failed to verify signature');
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const verifySignature = useCallback(
+    async (
+      message: string,
+      signature: string
+    ): Promise<VerificationResult | null> => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/verify-signature`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message, signature }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to verify signature');
+        }
+
+        const result: VerificationResult = await response.json();
+        return result;
+      } catch (err: any) {
+        setError(err.message || 'Failed to verify signature');
+        return null;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
 
   const clearHistory = useCallback(() => {
     setSignedMessages([]);
