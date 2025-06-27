@@ -1,40 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { DynamicContextProvider, DynamicWidget } from '@dynamic-labs/sdk-react-core';
+import { EthereumWalletConnectors } from '@dynamic-labs/ethereum';
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
+import WalletConnection from './components/WalletConnection';
+import MessageSigner from './components/MessageSigner';
+import { DYNAMIC_ENVIRONMENT_ID } from './config';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+const AppContent: React.FC = () => {
+  const { user, primaryWallet } = useDynamicContext();
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
-      <div className="text-center">
-        <div className="flex justify-center space-x-8 mb-8">
-          <a href="https://vite.dev" target="_blank" className="hover:scale-110 transition-transform">
-            <img src={viteLogo} className="w-24 h-24" alt="Vite logo" />
-          </a>
-          <a href="https://react.dev" target="_blank" className="hover:scale-110 transition-transform">
-            <img src={reactLogo} className="w-24 h-24 animate-spin-slow" alt="React logo" />
-          </a>
-        </div>
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-8">Vite + React</h1>
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
-          <button 
-            onClick={() => setCount((count) => count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
-          >
-            count is {count}
-          </button>
-          <p className="mt-4 text-gray-600 dark:text-gray-300">
-            Edit <code className="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">src/App.tsx</code> and save to test HMR
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
+            Web3 Message Signer & Verifier
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-400">
+            Sign and verify messages using Dynamic.xyz embedded wallet
           </p>
         </div>
-        <p className="mt-8 text-gray-500 dark:text-gray-400">
-          Click on the Vite and React logos to learn more
-        </p>
+
+        {/* Dynamic Widget for additional actions */}
+        <div className="mb-8 flex justify-center">
+          <DynamicWidget />
+        </div>
+
+        {/* Main Content */}
+        <div className="space-y-8">
+          <WalletConnection />
+          
+          {user && primaryWallet && (
+            <MessageSigner />
+          )}
+        </div>
+
+        {/* Footer */}
+        <footer className="mt-16 text-center text-gray-500 dark:text-gray-400">
+          <p>Built with Dynamic.xyz, React, and Tailwind CSS</p>
+        </footer>
       </div>
     </div>
-  )
+  );
+};
+
+function App() {
+  return (
+    <DynamicContextProvider
+      settings={{
+        environmentId: DYNAMIC_ENVIRONMENT_ID,
+        walletConnectors: [EthereumWalletConnectors],
+        appName: 'Web3 Message Signer',
+        appLogoUrl: 'https://dynamic.xyz/favicon.ico',
+      }}
+    >
+      <AppContent />
+    </DynamicContextProvider>
+  );
 }
 
-export default App
+export default App;
