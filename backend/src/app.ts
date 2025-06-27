@@ -15,9 +15,29 @@ export const createApp = (): express.Application => {
   // CORS configuration
   app.use(
     cors({
-      origin: config.corsOrigin,
+      origin: (origin, callback) => {
+        // Allow requests with no origin (mobile apps, etc.)
+        if (!origin) return callback(null, true);
+        
+        // Parse multiple origins from environment variable
+        const allowedOrigins = config.corsOrigin.split(',').map(origin => origin.trim());
+        
+        // Check if origin is in allowed list
+        if (allowedOrigins.includes(origin)) return callback(null, true);
+        
+        // Allow all Vercel preview deployments and production domains
+        if (origin.includes('.vercel.app')) return callback(null, true);
+        
+        // Allow localhost for development
+        if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+          return callback(null, true);
+        }
+        
+        // Reject other origins
+        callback(new Error('Not allowed by CORS'));
+      },
       credentials: true,
-      methods: ['GET', 'POST'],
+      methods: ['GET', 'POST', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'Authorization'],
     })
   );
@@ -34,6 +54,9 @@ export const createApp = (): express.Application => {
     legacyHeaders: false,
   });
   app.use(limiter);
+
+  // Handle preflight requests
+  app.options('*', cors());
 
   // Body parsing middleware
   app.use(express.json({ limit: '10mb' }));
