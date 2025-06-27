@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "web3-signer-verifier-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
