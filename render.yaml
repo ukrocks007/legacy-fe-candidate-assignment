@@ -3,8 +3,8 @@ services:
     name: web3-verifier-backend
     runtime: node
     plan: free
-    buildCommand: npm run install:all && npm run build:backend
-    startCommand: npm run dev:backend
+    buildCommand: npm run install:backend && npm run build:backend
+    startCommand: node ./backend/dist/index.js
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
