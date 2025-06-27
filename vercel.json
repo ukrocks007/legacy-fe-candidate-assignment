@@ -2,10 +2,10 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
+      "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist"
+        "distDir": "frontend/dist"
       }
     }
   ],
@@ -20,5 +20,8 @@
   ],
   "env": {
     "VITE_API_BASE_URL": "https://web3-verifier-backend.onrender.com"
-  }
+  },
+  "installCommand": "cd frontend && npm install",
+  "buildCommand": "cd frontend && npm run build:frontend",
+  "outputDirectory": "frontend/dist"
 }
