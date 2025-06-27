@@ -7,11 +7,14 @@
     "format:check": "npm run format:check --prefix backend && npm run format:check --prefix frontend",
     "install:all": "npm install --prefix backend && npm install --prefix frontend",
     "test": "npm test --prefix backend",
+    "test:watch": "npm run test:watch --prefix backend",
     "dev:backend": "npm run dev --prefix backend",
     "dev:frontend": "npm run dev --prefix frontend",
     "docker:build": "docker-compose build",
     "docker:up": "docker-compose up",
-    "docker:down": "docker-compose down"
+    "docker:down": "docker-compose down",
+    "deploy:vercel": "cd frontend && vercel --prod",
+    "setup": "npm run install:all && echo 'Setup complete! Run npm run dev to start'"
   },
   "private": true,
   "devDependencies": {
