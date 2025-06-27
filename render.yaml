@@ -12,7 +12,7 @@ services:
       - key: PORT
         value: 10000
       - key: CORS_ORIGIN
-        value: https://legacy-fe-candidate-assignment.vercel.app
+        value: https://web3-signer-verifier-48yxkbhet-utkarsh-mehtas-projects.vercel.app
       - key: RATE_LIMIT_WINDOW_MS
         value: 900000
       - key: RATE_LIMIT_MAX_REQUESTS

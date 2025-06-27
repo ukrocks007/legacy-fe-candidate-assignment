@@ -7,6 +7,7 @@ import { EthereumWalletConnectors } from '@dynamic-labs/ethereum';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import WalletConnection from './components/WalletConnection';
 import MessageSigner from './components/MessageSigner';
+import MFASetup from './components/MFASetup';
 import { DYNAMIC_ENVIRONMENT_ID } from './config';
 import './App.css';
 
@@ -35,7 +36,12 @@ const AppContent: React.FC = () => {
         <div className='space-y-8'>
           <WalletConnection />
 
-          {user && primaryWallet && <MessageSigner />}
+          {user && primaryWallet && (
+            <>
+              <MFASetup />
+              <MessageSigner />
+            </>
+          )}
         </div>
 
         {/* Footer */}
