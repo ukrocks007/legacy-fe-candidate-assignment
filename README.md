@@ -222,6 +222,8 @@ cd backend && npm run test:watch
 
 ### Frontend (Vercel)
 
+**Live Demo**: [https://web3-signer-verifier.vercel.app/](https://web3-signer-verifier.vercel.app/)
+
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/DM-SaaS/legacy-fe-candidate-assignment)
 
 1. Connect your GitHub repository to Vercel
