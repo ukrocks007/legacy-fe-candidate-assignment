@@ -3,7 +3,7 @@ import { useMessageSigner } from '../hooks/useMessageSigner';
 import { useMFAVerification } from '../hooks/useMFAVerification';
 import MFAVerificationModal from './MFAVerificationModal';
 import type { VerificationResult } from '../types';
-import { InfoIcon } from 'lucide-react';
+import { InfoIcon, Signature } from 'lucide-react';
 
 interface DashboardMessageSignerProps {
   onMessageSigned: (message: string, signature: string) => void;
@@ -122,8 +122,8 @@ const DashboardMessageSigner: React.FC<DashboardMessageSignerProps> = ({
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         <div className="p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-center">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-              ✍️ Sign & Verify Message
+            <h2 className="inline-flex gap-2 items-center text-lg font-semibold text-gray-900 dark:text-white">
+              <Signature className="w-6 h-6 text-indigo-600 dark:text-indigo-400 my-auto" /> Sign & Verify Message
             </h2>
             {requiresMFA && (
               <div className="flex items-center space-x-2 text-sm">
@@ -147,7 +147,7 @@ const DashboardMessageSigner: React.FC<DashboardMessageSignerProps> = ({
                 id="message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white resize-none"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 bg-gray-100 dark:text-white text-gray-950 resize-none"
                 rows={3}
                 placeholder="Type your message here..."
                 disabled={isLoading}
@@ -163,7 +163,7 @@ const DashboardMessageSigner: React.FC<DashboardMessageSignerProps> = ({
                 {isLoading ? (
                   <span className="animate-spin inline-block h-4 w-4 border-2 border-t-transparent border-indigo-600 rounded-full"></span>
                 ) : (
-                  '✍️ Sign & Verify Message'
+                  'Sign & Verify Message'
                 )}
               </button>
             </div>

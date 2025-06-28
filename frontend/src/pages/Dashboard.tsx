@@ -5,6 +5,7 @@ import { Navigate } from 'react-router-dom';
 import DashboardMessageSigner from '../components/DashboardMessageSigner';
 import MFASetup from '../components/MFASetup';
 import { FileText } from 'lucide-react';
+import { truncateAddress } from '../lib/wallet';
 
 interface SignedMessage {
   id: string;
@@ -69,39 +70,12 @@ const Dashboard: React.FC = () => {
     return new Date(timestamp).toLocaleString();
   };
 
-  const truncateAddress = (address: string) => {
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
-  };
-
   const truncateText = (text: string, maxLength: number = 50) => {
     return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
-                Web3 Message Signer
-              </h1>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                Connected as: 
-                <span className="font-mono ml-1 text-gray-900 dark:text-white">
-                  {truncateAddress(primaryWallet.address)}
-                </span>
-              </div>
-              <DynamicWidget />
-            </div>
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-full bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
           {/* Left Column - Main Actions */}

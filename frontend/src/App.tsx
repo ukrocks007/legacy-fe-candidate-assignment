@@ -14,15 +14,15 @@ import { ThemeProvider } from './contexts/ThemeContext';
 function App() {
   return (
     <ThemeProvider>
-      <AppShell>
-        <DynamicContextProvider
-          settings={{
-            environmentId: DYNAMIC_ENVIRONMENT_ID,
-            walletConnectors: [EthereumWalletConnectors],
-            appName: 'Web3 Message Signer',
-            appLogoUrl: 'https://dynamic.xyz/favicon.ico',
-          }}
-        >
+      <DynamicContextProvider
+        settings={{
+          environmentId: DYNAMIC_ENVIRONMENT_ID,
+          walletConnectors: [EthereumWalletConnectors],
+          appName: 'Web3 Message Signer',
+          appLogoUrl: 'https://dynamic.xyz/favicon.ico',
+        }}
+      >
+        <AppShell>
           <Router>
             <Routes>
               <Route path="/" element={<LandingPage />} />
@@ -30,9 +30,9 @@ function App() {
               <Route path="*" element={<ErrorPage />} />
             </Routes>
           </Router>
-        </DynamicContextProvider>
-      </AppShell>
-    </ThemeProvider>
+        </AppShell>
+      </DynamicContextProvider>
+    </ThemeProvider >
   );
 }
 
