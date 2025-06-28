@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { Navigate } from 'react-router-dom';
 import DashboardMessageSigner from '../components/DashboardMessageSigner';
-import MFASetup from '../components/MFASetup';
 import MessageHistory from '../components/MessageHistory';
 import QuickStats from '../components/QuickStats';
 import type { VerificationResult } from '../types';
@@ -85,7 +84,6 @@ const Dashboard: React.FC = () => {
               onSignatureVerified={handleSignatureVerified}
               signedMessages={signedMessages}
             />
-            <MFASetup />
           </div>
 
           <div className='space-y-6'>

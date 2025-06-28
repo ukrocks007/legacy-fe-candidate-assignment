@@ -1,4 +1,5 @@
 import React from 'react';
+import { Scroll, FileText, CheckCircle, XCircle } from 'lucide-react';
 import { formatTimestamp } from '../lib/wallet';
 
 interface MessageHistoryProps {
@@ -21,8 +22,9 @@ const MessageHistory: React.FC<MessageHistoryProps> = ({
     <div className='bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700'>
       <div className='p-6 border-b border-gray-200 dark:border-gray-700'>
         <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3'>
-          <h2 className='text-lg font-semibold text-gray-900 dark:text-white'>
-            📜 Message Signing History
+          <h2 className='text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2'>
+            <Scroll className='w-5 h-5' />
+            Message Signing History
           </h2>
           {signedMessages.length > 0 && (
             <button
@@ -39,7 +41,7 @@ const MessageHistory: React.FC<MessageHistoryProps> = ({
         {signedMessages.length === 0 ? (
           <div className='text-center py-8'>
             <div className='text-gray-400 dark:text-gray-500 mb-2'>
-              <span className='inline-block w-9 h-9'>📄</span>
+              <FileText className='w-9 h-9 mx-auto' />
             </div>
             <p className='text-gray-500 dark:text-gray-400'>
               No messages signed yet
@@ -61,13 +63,23 @@ const MessageHistory: React.FC<MessageHistoryProps> = ({
                   </div>
                   {msg.isValid !== undefined && (
                     <div
-                      className={`text-xs px-2 py-1 rounded-full whitespace-nowrap self-start ${
+                      className={`text-xs px-2 py-1 rounded-full whitespace-nowrap self-start flex items-center gap-1 ${
                         msg.isValid
                           ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
                           : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
                       }`}
                     >
-                      {msg.isValid ? '✅ Valid' : '❌ Invalid'}
+                      {msg.isValid ? (
+                        <>
+                          <CheckCircle className='w-3 h-3' />
+                          Valid
+                        </>
+                      ) : (
+                        <>
+                          <XCircle className='w-3 h-3' />
+                          Invalid
+                        </>
+                      )}
                     </div>
                   )}
                 </div>

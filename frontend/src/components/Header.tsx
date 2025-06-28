@@ -1,7 +1,10 @@
-import { DynamicWidget, useDynamicContext } from '@dynamic-labs/sdk-react-core';
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
+import { PenTool } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
+import UserDropdown from './UserDropdown';
 import Tooltip from './Tooltip';
 import { truncateAddress } from '../lib/wallet';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
   const { primaryWallet } = useDynamicContext();
@@ -18,11 +21,13 @@ export default function Header() {
     <header className='bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='flex justify-between items-center h-16'>
-          <div className='flex items-center space-x-4'>
-            <h2 className='inline-flex gap-2 font-semibold text-gray-900 dark:text-white items-center align-middle'>
-              <span className='text-[28px] my-auto'>✍️</span>
-              <span className='my-auto'>Web3 Message Signer</span>
-            </h2>
+          <div className='flex items-center space-x-4 cursor-pointer'>
+            <Link to='/'>
+              <h2 className='inline-flex gap-2 font-semibold text-gray-900 dark:text-white items-center align-middle'>
+                <PenTool className='w-7 h-7 text-blue-500' />
+                <span className='my-auto'>Web3 Message Signer</span>
+              </h2>
+            </Link>
           </div>
 
           <div className='flex items-center space-x-4'>
@@ -34,7 +39,8 @@ export default function Header() {
                 </span>
               </Tooltip>
             </div>
-            <DynamicWidget />
+            <UserDropdown />
+            {/* <DynamicWidget /> */}
             <ThemeToggle />
           </div>
         </div>
