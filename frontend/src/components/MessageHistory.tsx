@@ -75,7 +75,7 @@ const MessageHistory: React.FC<MessageHistoryProps> = ({
                 <div className='text-xs text-gray-500 dark:text-gray-400 space-y-1'>
                   <div className='flex flex-col sm:flex-row sm:justify-between gap-1'>
                     <span>Signature:</span>
-                    <span className='font-mono break-all truncate'>
+                    <span className='font-mono break-all truncate hover:text-wrap'>
                       {msg.signature}
                     </span>
                   </div>

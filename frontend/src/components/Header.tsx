@@ -1,5 +1,6 @@
 import { DynamicWidget, useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import ThemeToggle from './ThemeToggle';
+import Tooltip from './Tooltip';
 import { truncateAddress } from '../lib/wallet';
 
 export default function Header() {
@@ -27,9 +28,11 @@ export default function Header() {
           <div className='flex items-center space-x-4'>
             <div className='text-sm text-gray-600 dark:text-gray-400'>
               Connected as:
-              <span className='font-mono ml-1 text-gray-900 dark:text-white'>
-                {truncateAddress(primaryWallet!.address)}
-              </span>
+              <Tooltip content={primaryWallet!.address} position="bottom">
+                <span className='font-mono ml-1 text-gray-900 dark:text-white cursor-help'>
+                  {truncateAddress(primaryWallet!.address)}
+                </span>
+              </Tooltip>
             </div>
             <DynamicWidget />
             <ThemeToggle />
