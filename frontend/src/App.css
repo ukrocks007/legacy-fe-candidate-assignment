@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -13,8 +13,9 @@
   button {
     min-height: 44px; /* iOS recommended touch target size */
   }
-  
-  input, textarea {
+
+  input,
+  textarea {
     font-size: 16px; /* Prevents zoom on iOS */
   }
 }
@@ -39,7 +40,11 @@
 
 /* Animation for bouncing elements */
 @keyframes gentle-bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
   40% {

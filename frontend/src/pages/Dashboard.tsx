@@ -23,7 +23,7 @@ const Dashboard: React.FC = () => {
 
   // Redirect to landing if user is not logged in
   if (!user || !primaryWallet) {
-    return <Navigate to="/" replace />;
+    return <Navigate to='/' replace />;
   }
 
   // Load signed messages from localStorage on component mount
@@ -57,10 +57,15 @@ const Dashboard: React.FC = () => {
     setSignedMessages(prev => [newSignedMessage, ...prev]);
   };
 
-  const handleSignatureVerified = ({originalMessage, isValid}: VerificationResult) => {
+  const handleSignatureVerified = ({
+    originalMessage,
+    isValid,
+  }: VerificationResult) => {
     setSignedMessages(prev =>
       prev.map(msg =>
-        msg.message === originalMessage && msg.isValid === undefined ? { ...msg, isValid } : msg
+        msg.message === originalMessage && msg.isValid === undefined
+          ? { ...msg, isValid }
+          : msg
       )
     );
   };
@@ -71,10 +76,10 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-full bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
-          <div className="space-y-6">
+    <div className='min-h-full bg-gray-50 dark:bg-gray-900'>
+      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
+        <div className='grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8'>
+          <div className='space-y-6'>
             <MFASetup />
 
             <DashboardMessageSigner
@@ -84,8 +89,11 @@ const Dashboard: React.FC = () => {
             />
           </div>
 
-          <div className="space-y-6">
-            <MessageHistory signedMessages={signedMessages} clearHistory={clearHistory} />
+          <div className='space-y-6'>
+            <MessageHistory
+              signedMessages={signedMessages}
+              clearHistory={clearHistory}
+            />
             <QuickStats signedMessages={signedMessages} />
           </div>
         </div>

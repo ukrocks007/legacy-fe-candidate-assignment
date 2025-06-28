@@ -13,7 +13,7 @@ interface MessageSignerProps {
 const MessageSigner: React.FC<MessageSignerProps> = ({
   onMessageSigned,
   onSignatureVerified,
-  signedMessages: externalSignedMessages
+  signedMessages: externalSignedMessages,
 }) => {
   const [message, setMessage] = useState('');
   const [verificationResult, setVerificationResult] =
@@ -76,12 +76,12 @@ const MessageSigner: React.FC<MessageSignerProps> = ({
     const signedMessage = await signMessage(messageToSign);
     if (signedMessage) {
       setMessage('');
-      
+
       // Call the dashboard callback if provided
       if (onMessageSigned) {
         onMessageSigned(signedMessage.message, signedMessage.signature);
       }
-      
+
       // Auto-verify the signature
       const result = await verifySignature(
         signedMessage.message,
@@ -97,7 +97,7 @@ const MessageSigner: React.FC<MessageSignerProps> = ({
       signedMsg.signature
     );
     setVerificationResult(result);
-    
+
     // Call the dashboard callback if provided
     if (onSignatureVerified && signedMsg.id && result) {
       onSignatureVerified(signedMsg.id, result.isValid);
@@ -125,14 +125,16 @@ const MessageSigner: React.FC<MessageSignerProps> = ({
 
       {/* Message Signing Form */}
       <div className='bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg'>
-        <div className="flex justify-between items-center mb-6">
+        <div className='flex justify-between items-center mb-6'>
           <h2 className='text-2xl font-bold text-gray-800 dark:text-white'>
             Sign a Message
           </h2>
           {requiresMFA && (
-            <div className="flex items-center space-x-2 text-sm">
-              <span className="text-green-600 dark:text-green-400">🔒</span>
-              <span className="text-gray-600 dark:text-gray-400">MFA Protected</span>
+            <div className='flex items-center space-x-2 text-sm'>
+              <span className='text-green-600 dark:text-green-400'>🔒</span>
+              <span className='text-gray-600 dark:text-gray-400'>
+                MFA Protected
+              </span>
             </div>
           )}
         </div>
@@ -161,7 +163,11 @@ const MessageSigner: React.FC<MessageSignerProps> = ({
             disabled={isLoading || !message.trim()}
             className='w-full bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white font-semibold py-2 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
           >
-            {isLoading ? 'Signing...' : requiresMFA ? 'Sign Message (MFA Required)' : 'Sign Message'}
+            {isLoading
+              ? 'Signing...'
+              : requiresMFA
+                ? 'Sign Message (MFA Required)'
+                : 'Sign Message'}
           </button>
         </form>
 
@@ -187,10 +193,11 @@ const MessageSigner: React.FC<MessageSignerProps> = ({
 
           <div className='space-y-3'>
             <div
-              className={`p-3 rounded-lg ${verificationResult.isValid
+              className={`p-3 rounded-lg ${
+                verificationResult.isValid
                   ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300'
                   : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300'
-                }`}
+              }`}
             >
               <strong>Status:</strong>{' '}
               {verificationResult.isValid ? 'Valid ✓' : 'Invalid ✗'}
@@ -231,53 +238,55 @@ const MessageSigner: React.FC<MessageSignerProps> = ({
           </div>
 
           <div className='space-y-4 max-h-96 overflow-y-auto'>
-            {displaySignedMessages.map((signedMsg: SignedMessage, index: number) => (
-              <div
-                key={signedMsg.id || index}
-                className='border border-gray-200 dark:border-gray-600 rounded-lg p-4'
-              >
-                <div className='flex justify-between items-start mb-2'>
-                  <span className='text-sm text-gray-500 dark:text-gray-400'>
-                    {new Date(signedMsg.timestamp).toLocaleString()}
-                  </span>
-                  <button
-                    onClick={() => handleVerifySignature(signedMsg)}
-                    className='px-3 py-1 text-xs bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors'
-                  >
-                    Verify
-                  </button>
+            {displaySignedMessages.map(
+              (signedMsg: SignedMessage, index: number) => (
+                <div
+                  key={signedMsg.id || index}
+                  className='border border-gray-200 dark:border-gray-600 rounded-lg p-4'
+                >
+                  <div className='flex justify-between items-start mb-2'>
+                    <span className='text-sm text-gray-500 dark:text-gray-400'>
+                      {new Date(signedMsg.timestamp).toLocaleString()}
+                    </span>
+                    <button
+                      onClick={() => handleVerifySignature(signedMsg)}
+                      className='px-3 py-1 text-xs bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors'
+                    >
+                      Verify
+                    </button>
+                  </div>
+
+                  <div className='space-y-2'>
+                    <div>
+                      <strong className='text-sm text-gray-700 dark:text-gray-300'>
+                        Message:
+                      </strong>
+                      <p className='text-gray-600 dark:text-gray-400'>
+                        "{signedMsg.message}"
+                      </p>
+                    </div>
+
+                    <div>
+                      <strong className='text-sm text-gray-700 dark:text-gray-300'>
+                        Address:
+                      </strong>
+                      <p className='font-mono text-xs text-gray-600 dark:text-gray-400 break-all'>
+                        {signedMsg.address || signedMsg.walletAddress}
+                      </p>
+                    </div>
+
+                    <div>
+                      <strong className='text-sm text-gray-700 dark:text-gray-300'>
+                        Signature:
+                      </strong>
+                      <p className='font-mono text-xs text-gray-600 dark:text-gray-400 break-all'>
+                        {signedMsg.signature}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-
-                <div className='space-y-2'>
-                  <div>
-                    <strong className='text-sm text-gray-700 dark:text-gray-300'>
-                      Message:
-                    </strong>
-                    <p className='text-gray-600 dark:text-gray-400'>
-                      "{signedMsg.message}"
-                    </p>
-                  </div>
-
-                  <div>
-                    <strong className='text-sm text-gray-700 dark:text-gray-300'>
-                      Address:
-                    </strong>
-                    <p className='font-mono text-xs text-gray-600 dark:text-gray-400 break-all'>
-                      {signedMsg.address || signedMsg.walletAddress}
-                    </p>
-                  </div>
-
-                  <div>
-                    <strong className='text-sm text-gray-700 dark:text-gray-300'>
-                      Signature:
-                    </strong>
-                    <p className='font-mono text-xs text-gray-600 dark:text-gray-400 break-all'>
-                      {signedMsg.signature}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
+              )
+            )}
           </div>
         </div>
       )}

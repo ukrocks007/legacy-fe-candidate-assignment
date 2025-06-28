@@ -1,7 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import {
-  DynamicContextProvider,
-} from '@dynamic-labs/sdk-react-core';
+import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core';
 import { EthereumWalletConnectors } from '@dynamic-labs/ethereum';
 import { DYNAMIC_ENVIRONMENT_ID } from './config';
 import LandingPage from './pages/LandingPage';
@@ -25,14 +23,14 @@ function App() {
         <AppShell>
           <Router>
             <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="*" element={<ErrorPage />} />
+              <Route path='/' element={<LandingPage />} />
+              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='*' element={<ErrorPage />} />
             </Routes>
           </Router>
         </AppShell>
       </DynamicContextProvider>
-    </ThemeProvider >
+    </ThemeProvider>
   );
 }
 
