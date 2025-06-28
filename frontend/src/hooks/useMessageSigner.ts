@@ -40,7 +40,7 @@ export const useMessageSigner = () => {
           message,
           signature,
           address,
-          timestamp: new Date(),
+          timestamp: Date.now(),
         };
 
         const updatedMessages = [...signedMessages, signedMessage];

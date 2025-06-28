@@ -4,7 +4,17 @@ import { useMFAVerification } from '../hooks/useMFAVerification';
 import MFAVerificationModal from './MFAVerificationModal';
 import type { SignedMessage, VerificationResult } from '../types';
 
-const MessageSigner: React.FC = () => {
+interface MessageSignerProps {
+  onMessageSigned?: (message: string, signature: string) => void;
+  onSignatureVerified?: (messageId: string, isValid: boolean) => void;
+  signedMessages?: SignedMessage[];
+}
+
+const MessageSigner: React.FC<MessageSignerProps> = ({
+  onMessageSigned,
+  onSignatureVerified,
+  signedMessages: externalSignedMessages
+}) => {
   const [message, setMessage] = useState('');
   const [verificationResult, setVerificationResult] =
     useState<VerificationResult | null>(null);
@@ -66,6 +76,12 @@ const MessageSigner: React.FC = () => {
     const signedMessage = await signMessage(messageToSign);
     if (signedMessage) {
       setMessage('');
+      
+      // Call the dashboard callback if provided
+      if (onMessageSigned) {
+        onMessageSigned(signedMessage.message, signedMessage.signature);
+      }
+      
       // Auto-verify the signature
       const result = await verifySignature(
         signedMessage.message,
@@ -81,7 +97,15 @@ const MessageSigner: React.FC = () => {
       signedMsg.signature
     );
     setVerificationResult(result);
+    
+    // Call the dashboard callback if provided
+    if (onSignatureVerified && signedMsg.id && result) {
+      onSignatureVerified(signedMsg.id, result.isValid);
+    }
   };
+
+  // Use external signed messages if provided, otherwise use internal ones
+  const displaySignedMessages = externalSignedMessages || signedMessages;
 
   return (
     <div className='max-w-4xl mx-auto p-6 space-y-8'>
@@ -192,11 +216,11 @@ const MessageSigner: React.FC = () => {
       )}
 
       {/* Signed Messages History */}
-      {signedMessages.length > 0 && (
+      {displaySignedMessages.length > 0 && (
         <div className='bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg'>
           <div className='flex justify-between items-center mb-4'>
             <h3 className='text-xl font-bold text-gray-800 dark:text-white'>
-              Message History ({signedMessages.length})
+              Message History ({displaySignedMessages.length})
             </h3>
             <button
               onClick={clearHistory}
@@ -207,9 +231,9 @@ const MessageSigner: React.FC = () => {
           </div>
 
           <div className='space-y-4 max-h-96 overflow-y-auto'>
-            {signedMessages.map((signedMsg: SignedMessage, index: number) => (
+            {displaySignedMessages.map((signedMsg: SignedMessage, index: number) => (
               <div
-                key={index}
+                key={signedMsg.id || index}
                 className='border border-gray-200 dark:border-gray-600 rounded-lg p-4'
               >
                 <div className='flex justify-between items-start mb-2'>
@@ -239,7 +263,7 @@ const MessageSigner: React.FC = () => {
                       Address:
                     </strong>
                     <p className='font-mono text-xs text-gray-600 dark:text-gray-400 break-all'>
-                      {signedMsg.address}
+                      {signedMsg.address || signedMsg.walletAddress}
                     </p>
                   </div>
 

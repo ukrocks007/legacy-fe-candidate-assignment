@@ -6,10 +6,13 @@ export interface DynamicUser {
 }
 
 export interface SignedMessage {
+  id?: string;
   message: string;
   signature: string;
   address: string;
-  timestamp: Date;
+  timestamp: Date | number;
+  walletAddress?: string;
+  isValid?: boolean;
 }
 
 export interface VerificationResult {
