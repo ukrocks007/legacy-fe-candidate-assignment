@@ -7,7 +7,7 @@ import { InfoIcon, Signature } from 'lucide-react';
 
 interface DashboardMessageSignerProps {
   onMessageSigned: (message: string, signature: string) => void;
-  onSignatureVerified: (messageId: string, isValid: boolean) => void;
+  onSignatureVerified: (result: VerificationResult) => void;
   signedMessages: Array<{
     id: string;
     message: string;
@@ -90,11 +90,8 @@ const DashboardMessageSigner: React.FC<DashboardMessageSignerProps> = ({
         setVerificationResult(result);
         // Find the latest message ID (it would be the first in the array after the callback updates)
         setTimeout(() => {
-          const latestId = signedMessages[0]?.id;
-          if (latestId) {
-            onSignatureVerified(latestId, result.isValid);
-          }
-        }, 100);
+          onSignatureVerified(result);
+        }, 10);
       }
     }
   };

@@ -1,7 +1,6 @@
 import { DynamicWidget, useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import ThemeToggle from "./ThemeToggle";
 import { truncateAddress } from "../lib/wallet";
-import { Signature } from "lucide-react";
 
 export default function Header() {
     const { primaryWallet } = useDynamicContext();
