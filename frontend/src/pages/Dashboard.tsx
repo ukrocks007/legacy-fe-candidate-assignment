@@ -80,21 +80,20 @@ const Dashboard: React.FC = () => {
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
         <div className='grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8'>
           <div className='space-y-6'>
-            <MFASetup />
-
             <DashboardMessageSigner
               onMessageSigned={handleMessageSigned}
               onSignatureVerified={handleSignatureVerified}
               signedMessages={signedMessages}
             />
+            <MFASetup />
           </div>
 
           <div className='space-y-6'>
+            <QuickStats signedMessages={signedMessages} />
             <MessageHistory
               signedMessages={signedMessages}
               clearHistory={clearHistory}
             />
-            <QuickStats signedMessages={signedMessages} />
           </div>
         </div>
       </div>
