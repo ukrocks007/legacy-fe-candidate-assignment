@@ -19,6 +19,7 @@ interface SignedMessage {
 const Dashboard: React.FC = () => {
   const { user, primaryWallet } = useDynamicContext();
   const [signedMessages, setSignedMessages] = useState<SignedMessage[]>([]);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   // Redirect to landing if user is not logged in
   if (!user || !primaryWallet) {
@@ -35,12 +36,15 @@ const Dashboard: React.FC = () => {
         console.error('Error loading signed messages:', error);
       }
     }
+    setIsInitialLoad(false);
   }, []);
 
-  // Save signed messages to localStorage whenever the state changes
+  // Save signed messages to localStorage whenever the state changes (but not on initial load)
   useEffect(() => {
-    localStorage.setItem('signedMessages', JSON.stringify(signedMessages));
-  }, [signedMessages]);
+    if (!isInitialLoad) {
+      localStorage.setItem('signedMessages', JSON.stringify(signedMessages));
+    }
+  }, [signedMessages, isInitialLoad]);
 
   const handleMessageSigned = (message: string, signature: string) => {
     const newSignedMessage: SignedMessage = {
