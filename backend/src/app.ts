@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
+// import rateLimit from 'express-rate-limit';
 import { config } from './config';
 import routes from './routes';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
@@ -43,7 +43,7 @@ export const createApp = (): express.Application => {
   );
 
   // Rate limiting
-  const limiter = rateLimit({
+  /*const limiter = rateLimit({
     windowMs: config.rateLimitWindowMs,
     max: config.rateLimitMaxRequests,
     message: {
@@ -53,7 +53,7 @@ export const createApp = (): express.Application => {
     standardHeaders: true,
     legacyHeaders: false,
   });
-  app.use(limiter);
+  app.use(limiter);*/
 
   // Handle preflight requests
   app.options('*', cors());
