@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { Navigate } from 'react-router-dom';
-import { User, Trash2, RefreshCw } from 'lucide-react';
+import { User, Trash2 } from 'lucide-react';
 import MFASetup from '../components/MFASetup';
 
 const Profile: React.FC = () => {
@@ -77,19 +77,6 @@ const Profile: React.FC = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Connection Status */}
-              <div className='p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg'>
-                <div className='flex items-center space-x-2'>
-                  <span className='w-2 h-2 bg-green-500 rounded-full'></span>
-                  <span className='text-sm font-medium text-green-800 dark:text-green-200'>
-                    Wallet Connected
-                  </span>
-                </div>
-                <p className='text-sm text-green-600 dark:text-green-300 mt-1'>
-                  Your wallet is successfully connected and ready to use
-                </p>
-              </div>
             </div>
           </div>
 
@@ -118,29 +105,6 @@ const Profile: React.FC = () => {
                       <h3 className='font-medium'>Clear Message History</h3>
                       <p className='text-sm text-gray-600 dark:text-gray-400'>
                         Remove all signed messages from local storage
-                      </p>
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => {
-                    if (
-                      confirm(
-                        'Are you sure you want to refresh your connection?'
-                      )
-                    ) {
-                      window.location.reload();
-                    }
-                  }}
-                  className='p-4 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left'
-                >
-                  <div className='flex items-center space-x-3'>
-                    <RefreshCw className='w-5 h-5 text-blue-500' />
-                    <div>
-                      <h3 className='font-medium'>Refresh Connection</h3>
-                      <p className='text-sm text-gray-600 dark:text-gray-400'>
-                        Reload the page to refresh wallet connection
                       </p>
                     </div>
                   </div>

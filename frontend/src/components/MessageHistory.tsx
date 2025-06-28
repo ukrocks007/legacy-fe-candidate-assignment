@@ -1,6 +1,6 @@
 import React from 'react';
-import { Scroll, FileText, CheckCircle, XCircle } from 'lucide-react';
-import { formatTimestamp } from '../lib/wallet';
+import { Scroll, FileText } from 'lucide-react';
+import MessageHistoryItem from './MessageHistoryItem';
 
 interface MessageHistoryProps {
   signedMessages: {
@@ -53,56 +53,7 @@ const MessageHistory: React.FC<MessageHistoryProps> = ({
         ) : (
           <div className='space-y-4 max-h-96 overflow-y-auto custom-scrollbar px-2'>
             {signedMessages.map(msg => (
-              <div
-                key={msg.id}
-                className='border border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors'
-              >
-                <div className='flex flex-col sm:flex-row sm:items-start sm:justify-between mb-2 gap-2'>
-                  <div className='font-medium text-gray-900 dark:text-white text-sm break-words truncate'>
-                    {msg.message}
-                  </div>
-                  {msg.isValid !== undefined && (
-                    <div
-                      className={`text-xs px-2 py-1 rounded-full whitespace-nowrap self-start flex items-center gap-1 ${
-                        msg.isValid
-                          ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                          : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                      }`}
-                    >
-                      {msg.isValid ? (
-                        <>
-                          <CheckCircle className='w-3 h-3' />
-                          Valid
-                        </>
-                      ) : (
-                        <>
-                          <XCircle className='w-3 h-3' />
-                          Invalid
-                        </>
-                      )}
-                    </div>
-                  )}
-                </div>
-
-                <div className='text-xs text-gray-500 dark:text-gray-400 space-y-1'>
-                  <div className='flex flex-col sm:flex-row sm:justify-between gap-1'>
-                    <span>Signature:</span>
-                    <span className='font-mono break-all truncate hover:text-wrap'>
-                      {msg.signature}
-                    </span>
-                  </div>
-                  <div className='flex flex-col sm:flex-row sm:justify-between gap-1'>
-                    <span>Wallet:</span>
-                    <span className='font-mono truncate'>
-                      {msg.walletAddress}
-                    </span>
-                  </div>
-                  <div className='flex flex-col sm:flex-row sm:justify-between gap-1'>
-                    <span>Time:</span>
-                    <span>{formatTimestamp(msg.timestamp)}</span>
-                  </div>
-                </div>
-              </div>
+              <MessageHistoryItem key={msg.id} message={msg} />
             ))}
           </div>
         )}

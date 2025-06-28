@@ -6,6 +6,7 @@ import {
   useSyncMfaFlow,
 } from '@dynamic-labs/sdk-react-core';
 import type { MFADevice } from '@dynamic-labs/sdk-api-core';
+import { Shield, AlertTriangle } from 'lucide-react';
 import QRCodeUtil from 'qrcode';
 
 type MfaRegisterData = {
@@ -282,7 +283,7 @@ const DevicesView: React.FC<{
                 className='flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg'
               >
                 <div className='flex items-center space-x-3'>
-                  <span className='text-xl'>🔐</span>
+                  <Shield className='w-5 h-5 text-blue-600 dark:text-blue-400' />
                   <div>
                     <p className='font-medium text-gray-800 dark:text-white'>
                       Authenticator App
@@ -317,7 +318,7 @@ const DevicesView: React.FC<{
       ) : (
         <div className='text-center py-8'>
           <div className='text-gray-400 dark:text-gray-500 mb-2'>
-            <span className='inline-block w-9 h-9'>🔐</span>
+            <Shield className='w-9 h-9 mx-auto text-gray-400 dark:text-gray-500' />
           </div>
           <p className='text-gray-500 dark:text-gray-400'>
             No MFA devices configured
@@ -516,7 +517,8 @@ const BackupCodesView: React.FC<{
 
       <div className='p-3 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg'>
         <p className='text-sm text-yellow-800 dark:text-yellow-200'>
-          ⚠️ <strong>Important:</strong> These codes can only be used once each.
+          <AlertTriangle className='w-4 h-4 inline mr-1' />
+          <strong>Important:</strong> These codes can only be used once each.
           Store them securely and don't share them.
         </p>
       </div>

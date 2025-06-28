@@ -3,7 +3,15 @@ import { useMessageSigner } from '../hooks/useMessageSigner';
 import { useMFAVerification } from '../hooks/useMFAVerification';
 import MFAVerificationModal from './MFAVerificationModal';
 import type { VerificationResult } from '../types';
-import { InfoIcon, Signature } from 'lucide-react';
+import {
+  InfoIcon,
+  Signature,
+  CheckCircle,
+  XCircle,
+  User,
+  Clock,
+  FileText,
+} from 'lucide-react';
 
 interface DashboardMessageSignerProps {
   onMessageSigned: (message: string, signature: string) => void;
@@ -209,14 +217,16 @@ const DashboardMessageSigner: React.FC<DashboardMessageSignerProps> = ({
 
           {/* Status Messages */}
           {error && (
-            <div className='mt-4 p-3 bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-md text-sm'>
-              ❌ {error}
+            <div className='mt-4 p-3 bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-md text-sm flex items-center gap-2'>
+              <XCircle className='w-4 h-4 flex-shrink-0' />
+              {error}
             </div>
           )}
 
           {pendingMessage && (
-            <div className='mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/50 border border-yellow-200 dark:border-yellow-800 text-yellow-700 dark:text-yellow-300 rounded-md text-sm'>
-              ⏳ Message signing is pending MFA verification...
+            <div className='mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/50 border border-yellow-200 dark:border-yellow-800 text-yellow-700 dark:text-yellow-300 rounded-md text-sm flex items-center gap-2'>
+              <Clock className='w-4 h-4 flex-shrink-0' />
+              Message signing is pending MFA verification...
             </div>
           )}
 
@@ -229,18 +239,33 @@ const DashboardMessageSigner: React.FC<DashboardMessageSignerProps> = ({
                   : 'bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300'
               }`}
             >
-              <div className='font-medium mb-2'>
-                {verificationResult.isValid
-                  ? '✅ Signature is valid!'
-                  : '❌ Invalid signature'}
+              <div className='font-medium mb-2 flex items-center gap-2'>
+                {verificationResult.isValid ? (
+                  <>
+                    <CheckCircle className='w-4 h-4' />
+                    Signature is valid!
+                  </>
+                ) : (
+                  <>
+                    <XCircle className='w-4 h-4' />
+                    Invalid signature
+                  </>
+                )}
               </div>
               <div className='text-xs space-y-1'>
-                <div>
-                  👤 Signed by:{' '}
+                <div className='flex items-center gap-1'>
+                  <User className='w-3 h-3' />
+                  Signed by:{' '}
                   <span className='font-mono'>{verificationResult.signer}</span>
                 </div>
-                <div>🕘 Verified: {new Date().toLocaleString()}</div>
-                <div>📝 Original: "{verificationResult.originalMessage}"</div>
+                <div className='flex items-center gap-1'>
+                  <Clock className='w-3 h-3' />
+                  Verified: {new Date().toLocaleString()}
+                </div>
+                <div className='flex items-center gap-1 truncate'>
+                  <FileText className='w-3 h-3 flex-shrink-0' />
+                  Original: "{verificationResult.originalMessage}"
+                </div>
               </div>
             </div>
           )}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Mail, Smartphone, Shield, Lock } from 'lucide-react';
 
 interface MFAVerificationModalProps {
   isOpen: boolean;
@@ -37,13 +38,21 @@ const MFAVerificationModal: React.FC<MFAVerificationModalProps> = ({
   const getMfaIcon = (type: string) => {
     switch (type) {
       case 'email':
-        return '📧';
+        return (
+          <Mail className='w-12 h-12 mx-auto text-blue-600 dark:text-blue-400' />
+        );
       case 'sms':
-        return '📱';
+        return (
+          <Smartphone className='w-12 h-12 mx-auto text-green-600 dark:text-green-400' />
+        );
       case 'authenticator':
-        return '🔐';
+        return (
+          <Shield className='w-12 h-12 mx-auto text-purple-600 dark:text-purple-400' />
+        );
       default:
-        return '🔒';
+        return (
+          <Lock className='w-12 h-12 mx-auto text-gray-600 dark:text-gray-400' />
+        );
     }
   };
 
@@ -64,7 +73,7 @@ const MFAVerificationModal: React.FC<MFAVerificationModalProps> = ({
     <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
       <div className='bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md mx-4'>
         <div className='text-center mb-6'>
-          <div className='text-4xl mb-3'>{getMfaIcon(method.type)}</div>
+          <div className='mb-3'>{getMfaIcon(method.type)}</div>
           <h3 className='text-xl font-bold text-gray-800 dark:text-white mb-2'>
             Multi-Factor Authentication
           </h3>
