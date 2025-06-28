@@ -3,7 +3,9 @@ export const truncateAddress = (address: string) => {
 };
 
 export const formatTimestamp = (timestamp: number) => {
-  return new Date(timestamp).toLocaleString();
+  return new Date(timestamp).toLocaleString(undefined, {
+    hour12: true,
+  });
 };
 
 export const truncateText = (text: string, maxLength: number = 50) => {
