@@ -7,11 +7,11 @@ interface TooltipProps {
   className?: string;
 }
 
-const Tooltip: React.FC<TooltipProps> = ({ 
-  content, 
-  children, 
+const Tooltip: React.FC<TooltipProps> = ({
+  content,
+  children,
   position = 'bottom',
-  className = '' 
+  className = '',
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
@@ -23,7 +23,7 @@ const Tooltip: React.FC<TooltipProps> = ({
 
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const tooltipRect = tooltipRef.current.getBoundingClientRect();
-    
+
     let top = 0;
     let left = 0;
 
@@ -48,8 +48,14 @@ const Tooltip: React.FC<TooltipProps> = ({
 
     // Ensure tooltip stays within viewport
     const padding = 8;
-    left = Math.max(padding, Math.min(left, window.innerWidth - tooltipRect.width - padding));
-    top = Math.max(padding, Math.min(top, window.innerHeight - tooltipRect.height - padding));
+    left = Math.max(
+      padding,
+      Math.min(left, window.innerWidth - tooltipRect.width - padding)
+    );
+    top = Math.max(
+      padding,
+      Math.min(top, window.innerHeight - tooltipRect.height - padding)
+    );
 
     setTooltipPosition({ top, left });
   };
@@ -59,7 +65,7 @@ const Tooltip: React.FC<TooltipProps> = ({
       updatePosition();
       window.addEventListener('resize', updatePosition);
       window.addEventListener('scroll', updatePosition);
-      
+
       return () => {
         window.removeEventListener('resize', updatePosition);
         window.removeEventListener('scroll', updatePosition);
@@ -69,7 +75,7 @@ const Tooltip: React.FC<TooltipProps> = ({
 
   const getArrowClasses = () => {
     const baseClasses = 'absolute w-0 h-0 border-solid';
-    
+
     switch (position) {
       case 'top':
         return `${baseClasses} border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-gray-900 dark:border-t-gray-100 top-full left-1/2 transform -translate-x-1/2`;
@@ -100,7 +106,7 @@ const Tooltip: React.FC<TooltipProps> = ({
       {isVisible && (
         <div
           ref={tooltipRef}
-          className="fixed z-50 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-lg dark:bg-gray-100 dark:text-gray-900 pointer-events-none transition-opacity duration-200 whitespace-nowrap"
+          className='fixed z-50 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-lg dark:bg-gray-100 dark:text-gray-900 pointer-events-none transition-opacity duration-200 whitespace-nowrap'
           style={{
             top: tooltipPosition.top,
             left: tooltipPosition.left,

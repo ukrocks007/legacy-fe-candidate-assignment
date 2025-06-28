@@ -1,5 +1,5 @@
 import React from 'react';
-import { truncateText, truncateAddress, formatTimestamp } from '../lib/wallet';
+import { formatTimestamp } from '../lib/wallet';
 
 interface MessageHistoryProps {
   signedMessages: {

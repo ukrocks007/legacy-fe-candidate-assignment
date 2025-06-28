@@ -28,7 +28,7 @@ export default function Header() {
           <div className='flex items-center space-x-4'>
             <div className='text-sm text-gray-600 dark:text-gray-400'>
               Connected as:
-              <Tooltip content={primaryWallet!.address} position="bottom">
+              <Tooltip content={primaryWallet!.address} position='bottom'>
                 <span className='font-mono ml-1 text-gray-900 dark:text-white cursor-help'>
                   {truncateAddress(primaryWallet!.address)}
                 </span>
