@@ -82,16 +82,19 @@ const DashboardMessageSigner: React.FC<DashboardMessageSignerProps> = ({
     if (signedMessage) {
       setMessage('');
       onMessageSigned(signedMessage.message, signedMessage.signature);
-    }
-  };
-
-  const handleVerifyLatestMessage = async () => {
-    if (!latestMessage) return;
-    
-    const result = await verifySignature(latestMessage.message, latestMessage.signature);
-    if (result) {
-      setVerificationResult(result);
-      onSignatureVerified(latestMessage.id, result.isValid);
+      
+      // Auto-verify the signature immediately after signing
+      const result = await verifySignature(signedMessage.message, signedMessage.signature);
+      if (result) {
+        setVerificationResult(result);
+        // Find the latest message ID (it would be the first in the array after the callback updates)
+        setTimeout(() => {
+          const latestId = signedMessages[0]?.id;
+          if (latestId) {
+            onSignatureVerified(latestId, result.isValid);
+          }
+        }, 100);
+      }
     }
   };
 
@@ -114,12 +117,12 @@ const DashboardMessageSigner: React.FC<DashboardMessageSignerProps> = ({
         />
       )}
 
-      {/* Sign a Message Card */}
+      {/* Combined Sign and Verify Message Card */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         <div className="p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-              ✍️ Sign a Message
+              ✍️ Sign & Verify Message
             </h2>
             {requiresMFA && (
               <div className="flex items-center space-x-2 text-sm">
@@ -128,10 +131,13 @@ const DashboardMessageSigner: React.FC<DashboardMessageSignerProps> = ({
               </div>
             )}
           </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            Enter a message, sign it cryptographically, and verify its authenticity in one step
+          </p>
         </div>
 
         <div className="p-6">
-          <form onSubmit={handleSignMessage} className="space-y-4">
+          <form onSubmit={handleSignMessage} className="space-y-6">
             <div>
               <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Enter your custom message
@@ -147,15 +153,57 @@ const DashboardMessageSigner: React.FC<DashboardMessageSignerProps> = ({
               />
             </div>
 
-            <button
-              type="submit"
-              disabled={isLoading || !message.trim()}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-white font-medium py-2 px-4 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed"
-            >
-              {isLoading ? 'Signing...' : 'Sign Message'}
-            </button>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                disabled={isLoading || !message.trim()}
+                className="w-full sm:w-auto min-w-[200px] bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-white font-medium py-3 px-6 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed"
+              >
+                {isLoading ? (
+                  <span className="flex items-center justify-center space-x-2">
+                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <span>Processing...</span>
+                  </span>
+                ) : (
+                  '✍️ Sign & Verify Message'
+                )}
+              </button>
+            </div>
           </form>
 
+          {/* Latest Message Preview */}
+          {latestMessage && (
+            <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-md">
+              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                Latest Signed Message
+              </h3>
+              <div className="space-y-2 text-xs">
+                <div>
+                  <span className="font-medium text-gray-600 dark:text-gray-400">Message:</span>
+                  <p className="text-gray-800 dark:text-gray-200 mt-1 break-words">
+                    "{latestMessage.message}"
+                  </p>
+                </div>
+                <div>
+                  <span className="font-medium text-gray-600 dark:text-gray-400">Signature:</span>
+                  <p className="font-mono text-gray-800 dark:text-gray-200 mt-1 break-all">
+                    {latestMessage.signature}
+                  </p>
+                </div>
+                <div>
+                  <span className="font-medium text-gray-600 dark:text-gray-400">Time:</span>
+                  <p className="text-gray-800 dark:text-gray-200 mt-1">
+                    {new Date(latestMessage.timestamp).toLocaleString()}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Status Messages */}
           {error && (
             <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-md text-sm">
               ❌ {error}
@@ -167,80 +215,42 @@ const DashboardMessageSigner: React.FC<DashboardMessageSignerProps> = ({
               ⏳ Message signing is pending MFA verification...
             </div>
           )}
+
+          {/* Verification Result */}
+          {verificationResult && (
+            <div className={`mt-4 p-3 rounded-md text-sm ${
+              verificationResult.isValid
+                ? 'bg-green-50 dark:bg-green-900/50 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300'
+                : 'bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300'
+            }`}>
+              <div className="font-medium mb-2">
+                {verificationResult.isValid ? '✅ Signature is valid!' : '❌ Invalid signature'}
+              </div>
+              <div className="text-xs space-y-1">
+                <div>👤 Signed by: <span className="font-mono">{verificationResult.signer}</span></div>
+                <div>🕘 Verified: {new Date().toLocaleString()}</div>
+                <div>📝 Original: "{verificationResult.originalMessage}"</div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Submit to Backend Card */}
-      {latestMessage && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-              🔍 Submit to Backend
-            </h2>
-          </div>
-
-          <div className="p-6">
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Message
-                </label>
-                <div className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm">
-                  {latestMessage.message}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Signature
-                </label>
-                <div className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-mono break-all">
-                  {latestMessage.signature}
-                </div>
-              </div>
-
-              <button
-                onClick={handleVerifyLatestMessage}
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-              >
-                Verify Signature
-              </button>
-
-              {/* Verification Result */}
-              {verificationResult && (
-                <div className={`p-3 rounded-md text-sm ${
-                  verificationResult.isValid
-                    ? 'bg-green-50 dark:bg-green-900/50 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300'
-                    : 'bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300'
-                }`}>
-                  <div className="font-medium mb-1">
-                    {verificationResult.isValid ? '✅ Signature is valid!' : '❌ Invalid signature'}
-                  </div>
-                  <div className="text-xs space-y-1">
-                    <div>👤 Signed by: <span className="font-mono">{verificationResult.signer}</span></div>
-                    <div>🕘 Verified: {new Date().toLocaleString()}</div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Show message when no signed messages */}
       {signedMessages.length === 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-              🔍 Submit to Backend
-            </h2>
-          </div>
-          <div className="p-6">
-            <div className="text-center py-4">
-              <p className="text-gray-500 dark:text-gray-400 text-sm">
-                🛑 Please sign a message first
-              </p>
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+          <div className="text-center">
+            <div className="text-blue-600 dark:text-blue-400 mb-2">
+              <svg className="mx-auto h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
             </div>
+            <h3 className="text-lg font-medium text-blue-900 dark:text-blue-100 mb-2">
+              Welcome to Web3 Message Signer
+            </h3>
+            <p className="text-blue-700 dark:text-blue-300 text-sm">
+              Enter a message above and click "Sign & Verify Message" to sign it cryptographically and verify its authenticity automatically.
+            </p>
           </div>
         </div>
       )}
