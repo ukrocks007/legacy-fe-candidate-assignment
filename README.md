@@ -82,6 +82,7 @@ VITE_API_BASE_URL=http://localhost:3001
 3. Copy your Environment ID from the dashboard
 4. Paste it in `frontend/.env` as `VITE_DYNAMIC_ENVIRONMENT_ID`
 5. Configure wallet connectors (Ethereum) in Dynamic dashboard
+6. Enable Multi Factor Auth from Settings
 
 ### 5. Run the Application
 
