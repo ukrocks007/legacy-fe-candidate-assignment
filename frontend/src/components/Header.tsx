@@ -1,13 +1,15 @@
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
-import { PenTool } from 'lucide-react';
+import { PenTool, Shield, ShieldAlert } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import UserDropdown from './UserDropdown';
 import Tooltip from './Tooltip';
 import { truncateAddress } from '../lib/wallet';
+import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 
 export default function Header() {
   const { primaryWallet } = useDynamicContext();
+  const { isAuthenticated } = useAuth();
 
   if (!primaryWallet) {
     return (
@@ -31,13 +33,33 @@ export default function Header() {
           </div>
 
           <div className='flex items-center space-x-4'>
-            <div className='text-sm text-gray-600 dark:text-gray-400'>
-              Connected as:
-              <Tooltip content={primaryWallet!.address} position='bottom'>
-                <span className='font-mono ml-1 text-gray-900 dark:text-white cursor-help'>
-                  {truncateAddress(primaryWallet!.address)}
-                </span>
-              </Tooltip>
+            <div className='flex items-center space-x-3'>
+              <div className='text-sm text-gray-600 dark:text-gray-400'>
+                Connected as:
+                <Tooltip content={primaryWallet!.address} position='bottom'>
+                  <span className='font-mono ml-1 text-gray-900 dark:text-white cursor-help'>
+                    {truncateAddress(primaryWallet!.address)}
+                  </span>
+                </Tooltip>
+              </div>
+
+              <div className='flex items-center space-x-1'>
+                {isAuthenticated ? (
+                  <Tooltip
+                    content='Authenticated with backend'
+                    position='bottom'
+                  >
+                    <Shield className='w-6 h-6 text-green-500' />
+                  </Tooltip>
+                ) : (
+                  <Tooltip
+                    content='Not authenticated with backend'
+                    position='bottom'
+                  >
+                    <ShieldAlert className='w-6 h-6 text-yellow-500' />
+                  </Tooltip>
+                )}
+              </div>
             </div>
             <UserDropdown />
             {/* <DynamicWidget /> */}

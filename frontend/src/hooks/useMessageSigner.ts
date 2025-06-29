@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import type { SignedMessage, VerificationResult } from '../types';
 import { API_BASE_URL, API_ENDPOINTS } from '../config';
+import { authService } from '../services/authService';
 
 export const useMessageSigner = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -67,16 +68,30 @@ export const useMessageSigner = () => {
       setError(null);
 
       try {
-        const response = await fetch(
-          `${API_BASE_URL}${API_ENDPOINTS.VERIFY_SIGNATURE}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ message, signature }),
-          }
-        );
+        let response: Response;
+
+        // Use authenticated request if user is authenticated
+        if (authService.isAuthenticated()) {
+          response = await authService.authenticatedRequest(
+            `${API_BASE_URL}${API_ENDPOINTS.VERIFY_SIGNATURE}`,
+            {
+              method: 'POST',
+              body: JSON.stringify({ message, signature }),
+            }
+          );
+        } else {
+          // Fallback to regular request for unauthenticated users
+          response = await fetch(
+            `${API_BASE_URL}${API_ENDPOINTS.VERIFY_SIGNATURE}`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ message, signature }),
+            }
+          );
+        }
 
         if (!response.ok) {
           throw new Error('Failed to verify signature');

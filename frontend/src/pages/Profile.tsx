@@ -1,16 +1,12 @@
 import React from 'react';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
-import { Navigate } from 'react-router-dom';
-import { User, Trash2 } from 'lucide-react';
+import { User, Trash2, Shield, ShieldAlert } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 import MFASetup from '../components/MFASetup';
 
 const Profile: React.FC = () => {
   const { user, primaryWallet } = useDynamicContext();
-
-  // Redirect to landing if user is not logged in
-  if (!user || !primaryWallet) {
-    return <Navigate to='/' replace />;
-  }
+  const { isAuthenticated, user: backendUser } = useAuth();
 
   return (
     <div className='min-h-[calc(100vh-65px)] bg-gray-50 dark:bg-gray-900'>
@@ -35,6 +31,52 @@ const Profile: React.FC = () => {
             </div>
           </div>
 
+          {/* Authentication Status */}
+          <div className='bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700'>
+            <div className='p-6 border-b border-gray-200 dark:border-gray-700'>
+              <h2 className='text-lg font-semibold text-gray-900 dark:text-white'>
+                Authentication Status
+              </h2>
+            </div>
+            <div className='p-6'>
+              <div className='flex items-center space-x-3'>
+                {isAuthenticated ? (
+                  <>
+                    <Shield className='w-6 h-6 text-green-500' />
+                    <div>
+                      <h3 className='font-medium text-green-700 dark:text-green-400'>
+                        Backend Authentication Active
+                      </h3>
+                      <p className='text-sm text-gray-600 dark:text-gray-400'>
+                        You are authenticated with the backend and can access
+                        all features.
+                      </p>
+                      {backendUser && (
+                        <p className='text-sm text-gray-500 dark:text-gray-400 mt-1'>
+                          Backend User ID:{' '}
+                          <span className='font-mono'>{backendUser.id}</span>
+                        </p>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <ShieldAlert className='w-6 h-6 text-yellow-500' />
+                    <div>
+                      <h3 className='font-medium text-yellow-700 dark:text-yellow-400'>
+                        Wallet Connected Only
+                      </h3>
+                      <p className='text-sm text-gray-600 dark:text-gray-400'>
+                        You need to authenticate with the backend to access all
+                        features.
+                      </p>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* User Information */}
           <div className='bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700'>
             <div className='p-6 border-b border-gray-200 dark:border-gray-700'>
@@ -50,7 +92,7 @@ const Profile: React.FC = () => {
                   </label>
                   <div className='flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg align-middle h-[48px]'>
                     <span className='font-mono text-sm text-gray-900 dark:text-white my-auto items-center align-middle'>
-                      {primaryWallet.address}
+                      {primaryWallet?.address}
                     </span>
                   </div>
                 </div>
@@ -61,7 +103,7 @@ const Profile: React.FC = () => {
                   </label>
                   <div className='p-3 bg-gray-50 dark:bg-gray-700 rounded-lg'>
                     <span className='text-sm text-gray-900 dark:text-white'>
-                      {primaryWallet.connector?.name || 'Unknown'}
+                      {primaryWallet?.connector?.name || 'Unknown'}
                     </span>
                   </div>
                 </div>
@@ -72,10 +114,23 @@ const Profile: React.FC = () => {
                   </label>
                   <div className='p-3 bg-gray-50 dark:bg-gray-700 rounded-lg'>
                     <span className='text-sm text-gray-900 dark:text-white'>
-                      {primaryWallet.chain || 'Ethereum'}
+                      {primaryWallet?.chain || 'Ethereum'}
                     </span>
                   </div>
                 </div>
+
+                {user?.email && (
+                  <div>
+                    <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'>
+                      Email (Dynamic.xyz)
+                    </label>
+                    <div className='p-3 bg-gray-50 dark:bg-gray-700 rounded-lg'>
+                      <span className='text-sm text-gray-900 dark:text-white'>
+                        {user.email}
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

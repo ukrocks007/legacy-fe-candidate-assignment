@@ -4,16 +4,19 @@ import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
 import { Navigate } from 'react-router-dom';
 import { LockKeyhole } from 'lucide-react';
 import { useBackendHealth } from '../hooks/useBackendHealth';
+import { useAuth } from '../contexts/AuthContext';
 import ParticlesBackground from '../components/ParticlesBackground';
+import AuthenticationBanner from '../components/AuthenticationBanner';
 
 const LandingPage: React.FC = () => {
-  const { user } = useDynamicContext();
+  const { user, primaryWallet } = useDynamicContext();
+  const { isAuthenticated } = useAuth();
 
   // Start health check when component mounts (non-blocking)
   useBackendHealth(true);
 
-  // Redirect to dashboard if user is already logged in
-  if (user) {
+  // Redirect to dashboard if user is fully authenticated
+  if (user && primaryWallet && isAuthenticated) {
     return <Navigate to='/dashboard' replace />;
   }
 
@@ -42,8 +45,7 @@ const LandingPage: React.FC = () => {
             </p>
 
             <p className='text-sm text-gray-500 dark:text-gray-500 mb-8'>
-              Secure, decentralized message signing with Dynamic embedded
-              wallets
+              Secure, decentralized message signing with backend authentication
             </p>
 
             {/* Feature highlights */}
@@ -51,6 +53,10 @@ const LandingPage: React.FC = () => {
               <div className='flex items-center justify-center space-x-2 text-gray-600 dark:text-gray-400'>
                 <span className='w-2 h-2 bg-green-500 rounded-full'></span>
                 <span>Email-based wallet login</span>
+              </div>
+              <div className='flex items-center justify-center space-x-2 text-gray-600 dark:text-gray-400'>
+                <span className='w-2 h-2 bg-green-500 rounded-full'></span>
+                <span>Backend authentication</span>
               </div>
               <div className='flex items-center justify-center space-x-2 text-gray-600 dark:text-gray-400'>
                 <span className='w-2 h-2 bg-green-500 rounded-full'></span>
@@ -63,24 +69,28 @@ const LandingPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Login Section */}
-          <div className='bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 dark:opacity-70 opacity-100'>
-            <h2 className='text-xl font-semibold text-gray-800 dark:text-white mb-6 text-center'>
-              Get Started
-            </h2>
+          {/* Login Section - only show if not connected */}
+          {!user || !primaryWallet ? (
+            <div className='bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 dark:opacity-70 opacity-100'>
+              <h2 className='text-xl font-semibold text-gray-800 dark:text-white mb-6 text-center'>
+                Get Started
+              </h2>
 
-            <div className='flex justify-center'>
-              <DynamicWidget
-                innerButtonComponent={<span>Connect Wallet</span>}
-              />
-            </div>
+              <div className='flex justify-center'>
+                <DynamicWidget
+                  innerButtonComponent={<span>Connect Wallet</span>}
+                />
+              </div>
 
-            <div className='mt-6 text-center'>
-              <p className='text-xs text-gray-500 dark:text-gray-400'>
-                By connecting, you agree to our terms of service
-              </p>
+              <div className='mt-6 text-center'>
+                <p className='text-xs text-gray-500 dark:text-gray-400'>
+                  By connecting, you agree to our terms of service
+                </p>
+              </div>
             </div>
-          </div>
+          ) : (
+            <AuthenticationBanner />
+          )}
 
           {/* Additional Info */}
           <div className='mt-8 text-center'>

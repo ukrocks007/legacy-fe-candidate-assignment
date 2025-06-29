@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
-import { Navigate } from 'react-router-dom';
 import DashboardMessageSigner from '../components/DashboardMessageSigner';
 import MessageHistory from '../components/MessageHistory';
 import QuickStats from '../components/QuickStats';
@@ -18,7 +17,7 @@ interface SignedMessage {
 }
 
 const Dashboard: React.FC = () => {
-  const { user, primaryWallet } = useDynamicContext();
+  const { primaryWallet } = useDynamicContext();
   const [signedMessages, setSignedMessages] = useState<SignedMessage[]>([]);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [showHealthModal, setShowHealthModal] = useState(false);
@@ -67,12 +66,9 @@ const Dashboard: React.FC = () => {
     }
   }, [isHealthy, isChecking, healthMessage, showHealthModal]);
 
-  // Redirect to landing if user is not logged in
-  if (!user || !primaryWallet) {
-    return <Navigate to='/' replace />;
-  }
-
   const handleMessageSigned = (message: string, signature: string) => {
+    if (!primaryWallet) return;
+
     const newSignedMessage: SignedMessage = {
       id: Date.now().toString(),
       message,

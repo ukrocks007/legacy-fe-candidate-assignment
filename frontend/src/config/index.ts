@@ -6,6 +6,10 @@ export const API_BASE_URL =
 export const API_ENDPOINTS = {
   HEALTH: '/health',
   VERIFY_SIGNATURE: '/verify-signature',
+  AUTH_NONCE: '/auth/nonce',
+  AUTH_LOGIN: '/auth/login',
+  AUTH_ME: '/auth/me',
+  AUTH_LOGOUT: '/auth/logout',
 } as const;
 
 // API Settings

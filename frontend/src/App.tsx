@@ -8,7 +8,9 @@ import Profile from './pages/Profile';
 import ErrorPage from './pages/ErrorPage';
 import './App.css';
 import AppShell from './components/AppShell';
+import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
   return (
@@ -21,16 +23,32 @@ function App() {
           appLogoUrl: 'https://dynamic.xyz/favicon.ico',
         }}
       >
-        <Router>
-          <AppShell>
-            <Routes>
-              <Route path='/' element={<LandingPage />} />
-              <Route path='/dashboard' element={<Dashboard />} />
-              <Route path='/profile' element={<Profile />} />
-              <Route path='*' element={<ErrorPage />} />
-            </Routes>
-          </AppShell>
-        </Router>
+        <AuthProvider>
+          <Router>
+            <AppShell>
+              <Routes>
+                <Route path='/' element={<LandingPage />} />
+                <Route
+                  path='/dashboard'
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path='/profile'
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path='*' element={<ErrorPage />} />
+              </Routes>
+            </AppShell>
+          </Router>
+        </AuthProvider>
       </DynamicContextProvider>
     </ThemeProvider>
   );
