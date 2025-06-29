@@ -109,7 +109,7 @@ const Dashboard: React.FC = () => {
     localStorage.removeItem('signedMessages');
   };
   return (
-    <div className='min-h-full bg-gray-50 dark:bg-gray-900'>
+    <div className='min-h-[calc(100vh-65px)] bg-gray-50 dark:bg-gray-900'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
         <div className='grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8'>
           <div className='space-y-6'>
