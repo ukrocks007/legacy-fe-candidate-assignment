@@ -9,48 +9,45 @@ import ErrorPage from './pages/ErrorPage';
 import './App.css';
 import AppShell from './components/AppShell';
 import ProtectedRoute from './components/ProtectedRoute';
-import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
   return (
-    <ThemeProvider>
-      <DynamicContextProvider
-        settings={{
-          environmentId: DYNAMIC_ENVIRONMENT_ID,
-          walletConnectors: [EthereumWalletConnectors],
-          appName: 'Web3 Message Signer',
-          appLogoUrl: 'https://dynamic.xyz/favicon.ico',
-        }}
-      >
-        <AuthProvider>
-          <Router>
-            <AppShell>
-              <Routes>
-                <Route path='/' element={<LandingPage />} />
-                <Route
-                  path='/dashboard'
-                  element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path='/profile'
-                  element={
-                    <ProtectedRoute>
-                      <Profile />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route path='*' element={<ErrorPage />} />
-              </Routes>
-            </AppShell>
-          </Router>
-        </AuthProvider>
-      </DynamicContextProvider>
-    </ThemeProvider>
+    <DynamicContextProvider
+      settings={{
+        environmentId: DYNAMIC_ENVIRONMENT_ID,
+        walletConnectors: [EthereumWalletConnectors],
+        appName: 'Web3 Message Signer',
+        appLogoUrl: 'https://dynamic.xyz/favicon.ico',
+      }}
+    >
+      <AuthProvider>
+        <Router>
+          <AppShell>
+            <Routes>
+              <Route path='/' element={<LandingPage />} />
+              <Route
+                path='/dashboard'
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path='/profile'
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path='*' element={<ErrorPage />} />
+            </Routes>
+          </AppShell>
+        </Router>
+      </AuthProvider>
+    </DynamicContextProvider>
   );
 }
 

@@ -7,7 +7,3 @@ export const formatTimestamp = (timestamp: number) => {
     hour12: true,
   });
 };
-
-export const truncateText = (text: string, maxLength: number = 50) => {
-  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
-};

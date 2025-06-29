@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useMessageSigner } from '../hooks/useMessageSigner';
-import { useMFAVerification } from '../hooks/useMFAVerification';
-import MFAVerificationModal from './MFAVerificationModal';
 import type { SignedMessage, VerificationResult } from '../types';
 
 interface MessageSignerProps {
@@ -27,49 +25,12 @@ const MessageSigner: React.FC<MessageSignerProps> = ({
     error,
   } = useMessageSigner();
 
-  const {
-    requiresMFA,
-    isVerifying,
-    currentChallenge,
-    verificationCode,
-    setVerificationCode,
-    error: mfaError,
-    initiateVerification,
-    verifyCode,
-    cancelVerification,
-  } = useMFAVerification();
-
-  const [pendingMessage, setPendingMessage] = useState<string | null>(null);
-
   const handleSignMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
 
-    // Check if MFA is required
-    if (requiresMFA) {
-      const canProceed = await initiateVerification();
-      if (!canProceed) {
-        setPendingMessage(message);
-        return;
-      }
-    }
-
     // Proceed with signing
     await performSigning(message);
-  };
-
-  const handleMFAVerification = async (code: string): Promise<boolean> => {
-    const success = await verifyCode(code);
-    if (success && pendingMessage) {
-      await performSigning(pendingMessage);
-      setPendingMessage(null);
-    }
-    return success;
-  };
-
-  const handleMFACancel = () => {
-    cancelVerification();
-    setPendingMessage(null);
   };
 
   const performSigning = async (messageToSign: string) => {
@@ -109,34 +70,12 @@ const MessageSigner: React.FC<MessageSignerProps> = ({
 
   return (
     <div className='max-w-4xl mx-auto p-6 space-y-8'>
-      {/* MFA Verification Modal */}
-      {currentChallenge && (
-        <MFAVerificationModal
-          isOpen={!!currentChallenge}
-          method={currentChallenge.method}
-          verificationCode={verificationCode}
-          setVerificationCode={setVerificationCode}
-          onVerify={handleMFAVerification}
-          onCancel={handleMFACancel}
-          isVerifying={isVerifying}
-          error={mfaError}
-        />
-      )}
-
       {/* Message Signing Form */}
       <div className='bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg'>
         <div className='flex justify-between items-center mb-6'>
           <h2 className='text-2xl font-bold text-gray-800 dark:text-white'>
             Sign a Message
           </h2>
-          {requiresMFA && (
-            <div className='flex items-center space-x-2 text-sm'>
-              <span className='text-green-600 dark:text-green-400'>🔒</span>
-              <span className='text-gray-600 dark:text-gray-400'>
-                MFA Protected
-              </span>
-            </div>
-          )}
         </div>
 
         <form onSubmit={handleSignMessage} className='space-y-4'>
@@ -163,23 +102,13 @@ const MessageSigner: React.FC<MessageSignerProps> = ({
             disabled={isLoading || !message.trim()}
             className='w-full bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white font-semibold py-2 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
           >
-            {isLoading
-              ? 'Signing...'
-              : requiresMFA
-                ? 'Sign Message (MFA Required)'
-                : 'Sign Message'}
+            {isLoading ? 'Signing...' : 'Sign Message'}
           </button>
         </form>
 
         {error && (
           <div className='mt-4 p-3 bg-red-100 dark:bg-red-900 border border-red-400 text-red-700 dark:text-red-300 rounded'>
             {error}
-          </div>
-        )}
-
-        {pendingMessage && (
-          <div className='mt-4 p-3 bg-yellow-100 dark:bg-yellow-900 border border-yellow-400 text-yellow-700 dark:text-yellow-300 rounded'>
-            Message signing is pending MFA verification...
           </div>
         )}
       </div>
