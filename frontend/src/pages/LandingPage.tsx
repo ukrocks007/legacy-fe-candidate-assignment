@@ -64,7 +64,7 @@ const LandingPage: React.FC = () => {
           </h2>
 
           <div className='flex justify-center'>
-            <DynamicWidget />
+            <DynamicWidget innerButtonComponent={<span>Connect Wallet</span>} />
           </div>
 
           <div className='mt-6 text-center'>
