@@ -91,7 +91,7 @@ const Profile: React.FC = () => {
                     Wallet Address
                   </label>
                   <div className='flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg align-middle h-[48px]'>
-                    <span className='font-mono text-sm text-gray-900 dark:text-white my-auto items-center align-middle'>
+                    <span className='font-mono text-sm text-gray-900 dark:text-white my-auto items-center align-middle truncate'>
                       {primaryWallet?.address}
                     </span>
                   </div>
