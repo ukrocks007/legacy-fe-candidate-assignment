@@ -22,7 +22,7 @@ const Dashboard: React.FC = () => {
   const [signedMessages, setSignedMessages] = useState<SignedMessage[]>([]);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [showHealthModal, setShowHealthModal] = useState(false);
-  
+
   // Health check hook - check immediately when dashboard loads
   const {
     isHealthy,
@@ -61,7 +61,7 @@ const Dashboard: React.FC = () => {
       const timer = setTimeout(() => {
         setShowHealthModal(false);
       }, 2000); // Show success for 2 seconds
-      
+
       // Cleanup timeout on unmount or dependency change
       return () => clearTimeout(timer);
     }
@@ -107,7 +107,8 @@ const Dashboard: React.FC = () => {
   const clearHistory = () => {
     setSignedMessages([]);
     localStorage.removeItem('signedMessages');
-  };  return (
+  };
+  return (
     <div className='min-h-full bg-gray-50 dark:bg-gray-900'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
         <div className='grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8'>

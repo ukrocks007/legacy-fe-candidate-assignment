@@ -1,4 +1,9 @@
-import { API_BASE_URL, API_ENDPOINTS, API_CONFIG, isRenderUrl } from '../config';
+import {
+  API_BASE_URL,
+  API_ENDPOINTS,
+  API_CONFIG,
+  isRenderUrl,
+} from '../config';
 
 class HealthService {
   private static instance: HealthService;
@@ -13,8 +18,9 @@ class HealthService {
     message: null,
     messageType: null,
   };
-  private subscribers: Array<(result: any) => void> = [];  private currentPromise: Promise<any> | null = null;
-  
+  private subscribers: Array<(result: any) => void> = [];
+  private currentPromise: Promise<any> | null = null;
+
   // Cache duration in milliseconds (from config)
   private readonly CACHE_DURATION = API_CONFIG.HEALTH_CHECK_CACHE_DURATION;
 
@@ -140,7 +146,8 @@ class HealthService {
       if (error instanceof Error && error.name === 'AbortError') {
         this.lastResult = {
           isHealthy: false,
-          message: 'Backend health check timed out. The server may be slow to respond.',
+          message:
+            'Backend health check timed out. The server may be slow to respond.',
           messageType: 'warning',
         };
         return;

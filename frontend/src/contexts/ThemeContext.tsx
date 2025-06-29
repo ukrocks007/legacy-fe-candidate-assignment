@@ -36,7 +36,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
         return () => mediaQuery.removeEventListener('change', handleChange);
       }
     } catch (error) {
-      console.warn('Failed to access localStorage for theme monitoring:', error);
+      console.warn(
+        'Failed to access localStorage for theme monitoring:',
+        error
+      );
     }
   }, []);
 
@@ -49,7 +52,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       rootElement.classList.add('light');
       rootElement.classList.remove('dark');
     }
-    
+
     // Save theme preference to localStorage
     try {
       localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
@@ -65,7 +68,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   const resetToSystemTheme = () => {
     try {
       localStorage.removeItem('theme');
-      const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const systemPreference = window.matchMedia(
+        '(prefers-color-scheme: dark)'
+      ).matches;
       setIsDarkMode(systemPreference);
     } catch (error) {
       console.warn('Failed to reset theme to system preference:', error);
@@ -73,7 +78,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <ThemeContext.Provider value={{ isDarkMode, toggleTheme, resetToSystemTheme }}>
+    <ThemeContext.Provider
+      value={{ isDarkMode, toggleTheme, resetToSystemTheme }}
+    >
       {children}
     </ThemeContext.Provider>
   );

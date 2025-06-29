@@ -20,7 +20,7 @@ export const useBackendHealth = (checkImmediately: boolean = false) => {
 
       // Trigger initial check if requested
       if (checkImmediately) {
-        healthService.checkHealth().catch((error) => {
+        healthService.checkHealth().catch(error => {
           console.error('Initial health check failed:', error);
         });
       }
@@ -33,7 +33,7 @@ export const useBackendHealth = (checkImmediately: boolean = false) => {
   }, [checkImmediately]);
 
   const checkHealth = useCallback(() => {
-    return healthService.forceRefresh().catch((error) => {
+    return healthService.forceRefresh().catch(error => {
       console.error('Manual health check failed:', error);
     });
   }, []);

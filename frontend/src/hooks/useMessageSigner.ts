@@ -67,13 +67,16 @@ export const useMessageSigner = () => {
       setError(null);
 
       try {
-        const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.VERIFY_SIGNATURE}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ message, signature }),
-        });
+        const response = await fetch(
+          `${API_BASE_URL}${API_ENDPOINTS.VERIFY_SIGNATURE}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message, signature }),
+          }
+        );
 
         if (!response.ok) {
           throw new Error('Failed to verify signature');
