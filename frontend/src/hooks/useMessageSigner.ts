@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import type { SignedMessage, VerificationResult } from '../types';
-import { API_BASE_URL } from '../config';
+import { API_BASE_URL, API_ENDPOINTS } from '../config';
 
 export const useMessageSigner = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +67,7 @@ export const useMessageSigner = () => {
       setError(null);
 
       try {
-        const response = await fetch(`${API_BASE_URL}/verify-signature`, {
+        const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.VERIFY_SIGNATURE}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

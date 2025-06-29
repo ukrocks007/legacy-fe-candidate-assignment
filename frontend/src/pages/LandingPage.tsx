@@ -3,9 +3,13 @@ import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
 import { Navigate } from 'react-router-dom';
 import { LockKeyhole } from 'lucide-react';
+import { useBackendHealth } from '../hooks/useBackendHealth';
 
 const LandingPage: React.FC = () => {
   const { user } = useDynamicContext();
+
+  // Start health check when component mounts (non-blocking)
+  useBackendHealth(true);
 
   // Redirect to dashboard if user is already logged in
   if (user) {
