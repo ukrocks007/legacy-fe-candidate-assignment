@@ -1,3 +1,5 @@
+import { Request } from 'express';
+
 export interface SignatureVerificationRequest {
   message: string;
   signature: string;
@@ -21,4 +23,45 @@ export interface AppConfig {
   corsOrigin: string;
   rateLimitWindowMs: number;
   rateLimitMaxRequests: number;
+  jwtSecret: string;
+  jwtExpiresIn: number;
+}
+
+// Authentication related types
+export interface User {
+  id: string;
+  walletAddress: string;
+  nonce: string;
+  createdAt: Date;
+  lastLoginAt?: Date;
+}
+
+export interface AuthRequest {
+  walletAddress: string;
+  signature: string;
+  message: string;
+}
+
+export interface AuthResponse {
+  success: boolean;
+  token?: string;
+  user?: {
+    id: string;
+    walletAddress: string;
+  };
+  error?: string;
+}
+
+export interface JWTPayload {
+  userId: string;
+  walletAddress: string;
+  iat?: number;
+  exp?: number;
+}
+
+export interface AuthenticatedRequest extends Request {
+  user?: {
+    id: string;
+    walletAddress: string;
+  };
 }
