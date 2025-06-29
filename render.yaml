@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: web3-verifier-backend
+    runtime: node
+    plan: free
+    buildCommand: npm run install:backend && npm run build:backend
+    startCommand: node ./backend/dist/index.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: CORS_ORIGIN
+        value: https://web3-signer-verifier.vercel.app,https://web3-signer-verifier-48yxkbhet-utkarsh-mehtas-projects.vercel.app
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 100
