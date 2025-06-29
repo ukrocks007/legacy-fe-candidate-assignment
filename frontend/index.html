@@ -4,7 +4,25 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <title>Web3 Message Signer</title>
+    <!-- Prevent theme flashing by applying theme immediately -->
+    <script>
+      (function() {
+        try {
+          const savedTheme = localStorage.getItem('theme');
+          if (savedTheme) {
+            document.documentElement.classList.add(savedTheme);
+          } else {
+            // Use system preference if no saved theme
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.classList.add(systemPrefersDark ? 'dark' : 'light');
+          }
+        } catch (e) {
+          // Fallback to light theme if localStorage fails
+          document.documentElement.classList.add('light');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

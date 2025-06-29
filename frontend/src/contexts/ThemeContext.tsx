@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 interface ThemeContextProps {
   isDarkMode: boolean;
   toggleTheme: () => void;
+  resetToSystemTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
@@ -10,16 +11,33 @@ const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isDarkMode, setIsDarkMode] = useState(
-    window.matchMedia('(prefers-color-scheme: dark)').matches
-  );
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    // Check localStorage first, then fall back to system preference
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme !== null) {
+        return savedTheme === 'dark';
+      }
+    } catch (error) {
+      console.warn('Failed to access localStorage for theme:', error);
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = () => setIsDarkMode(mediaQuery.matches);
+    // Only listen to system preference changes if no user preference is saved
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === null) {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const handleChange = () => setIsDarkMode(mediaQuery.matches);
 
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+        mediaQuery.addEventListener('change', handleChange);
+        return () => mediaQuery.removeEventListener('change', handleChange);
+      }
+    } catch (error) {
+      console.warn('Failed to access localStorage for theme monitoring:', error);
+    }
   }, []);
 
   useEffect(() => {
@@ -31,14 +49,31 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       rootElement.classList.add('light');
       rootElement.classList.remove('dark');
     }
+    
+    // Save theme preference to localStorage
+    try {
+      localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    } catch (error) {
+      console.warn('Failed to save theme preference to localStorage:', error);
+    }
   }, [isDarkMode]);
 
   const toggleTheme = () => {
     setIsDarkMode(prev => !prev);
   };
 
+  const resetToSystemTheme = () => {
+    try {
+      localStorage.removeItem('theme');
+      const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setIsDarkMode(systemPreference);
+    } catch (error) {
+      console.warn('Failed to reset theme to system preference:', error);
+    }
+  };
+
   return (
-    <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
+    <ThemeContext.Provider value={{ isDarkMode, toggleTheme, resetToSystemTheme }}>
       {children}
     </ThemeContext.Provider>
   );
