@@ -26,8 +26,7 @@ export default function Header() {
           <div className='flex items-center space-x-4 cursor-pointer'>
             <Link to='/'>
               <h2 className='inline-flex gap-2 font-semibold text-gray-900 dark:text-white items-center align-middle'>
-                <PenTool className='w-7 h-7 text-blue-500' />
-                <span className='my-auto'>Web3 Message Signer</span>
+                <PenTool className='w-10 h-10 text-blue-500' />
               </h2>
             </Link>
           </div>
