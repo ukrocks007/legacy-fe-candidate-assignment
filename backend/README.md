@@ -5,58 +5,42 @@ A Node.js + Express + TypeScript backend API for verifying Ethereum message sign
 ## 🏗️ Architecture
 
 This backend is built with:
+
 - **Node.js** + **Express** for the web framework
 - **TypeScript** for type safety
 - **ethers.js** for Ethereum signature verification
 - **Jest** for testing
 - **ESLint** for code linting
 
-## 📁 Project Structure
-
-```
-backend/
-├── src/
-│   ├── __tests__/           # Test files
-│   ├── config/              # Configuration management
-│   ├── controllers/         # Request handlers
-│   ├── middleware/          # Express middleware
-│   ├── routes/              # API routes
-│   ├── services/            # Business logic
-│   ├── types/               # TypeScript type definitions
-│   ├── validators/          # Request validation
-│   ├── app.ts               # Express app setup
-│   └── index.ts             # Server entry point
-├── dist/                    # Compiled JavaScript output
-├── package.json
-├── tsconfig.json
-├── jest.config.js
-└── README.md
-```
-
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 
 ### Installation
 
 1. Navigate to the backend directory:
+
 ```bash
 cd backend
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Create environment file:
+
 ```bash
 cp .env.example .env
 ```
 
 4. Edit `.env` file with your configuration:
+
 ```env
 PORT=3001
 NODE_ENV=development
@@ -68,6 +52,7 @@ RATE_LIMIT_MAX_REQUESTS=100
 ### Development
 
 Start the development server with hot reload:
+
 ```bash
 npm run dev
 ```
@@ -77,6 +62,7 @@ The server will start on `http://localhost:3001`
 ### Production
 
 Build and start the production server:
+
 ```bash
 npm run build
 npm start
@@ -85,11 +71,13 @@ npm start
 ### Testing
 
 Run the test suite:
+
 ```bash
 npm test
 ```
 
 Run tests in watch mode:
+
 ```bash
 npm run test:watch
 ```
@@ -97,11 +85,13 @@ npm run test:watch
 ### Linting
 
 Check code quality:
+
 ```bash
 npm run lint
 ```
 
 Auto-fix linting issues:
+
 ```bash
 npm run lint:fix
 ```
@@ -109,14 +99,17 @@ npm run lint:fix
 ## 📡 API Endpoints
 
 ### Health Check
+
 - **GET** `/api/health`
 - Returns server health status
 
 ### Signature Verification
+
 - **POST** `/api/verify-signature`
 - Verifies an Ethereum message signature
 
 #### Request Body:
+
 ```json
 {
   "message": "Hello World",
@@ -125,6 +118,7 @@ npm run lint:fix
 ```
 
 #### Response (Success):
+
 ```json
 {
   "isValid": true,
@@ -134,6 +128,7 @@ npm run lint:fix
 ```
 
 #### Response (Invalid):
+
 ```json
 {
   "isValid": false,
@@ -147,13 +142,13 @@ npm run lint:fix
 
 Environment variables:
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `PORT` | `3001` | Server port |
-| `NODE_ENV` | `development` | Environment mode |
-| `CORS_ORIGIN` | `http://localhost:5173` | Allowed CORS origin |
-| `RATE_LIMIT_WINDOW_MS` | `900000` | Rate limit window (15 min) |
-| `RATE_LIMIT_MAX_REQUESTS` | `100` | Max requests per window |
+| Variable                  | Default                 | Description                |
+| ------------------------- | ----------------------- | -------------------------- |
+| `PORT`                    | `3001`                  | Server port                |
+| `NODE_ENV`                | `development`           | Environment mode           |
+| `CORS_ORIGIN`             | `http://localhost:5173` | Allowed CORS origin        |
+| `RATE_LIMIT_WINDOW_MS`    | `900000`                | Rate limit window (15 min) |
+| `RATE_LIMIT_MAX_REQUESTS` | `100`                   | Max requests per window    |
 
 ## 🛡️ Security Features
 
@@ -166,43 +161,14 @@ Environment variables:
 ## 🧪 Testing Strategy
 
 The backend includes comprehensive tests for:
+
 - API endpoints (integration tests)
 - Signature verification service (unit tests)
 - Input validation
 - Error handling
 
-## 🏗️ Architecture Decisions
-
-### Service Layer Pattern
-- **Controllers** handle HTTP requests/responses
-- **Services** contain business logic
-- **Validators** handle input validation
-- Clean separation of concerns
-
-### Error Handling
-- Centralized error handling middleware
-- Consistent error response format
-- Development vs production error details
-
-### Type Safety
-- Full TypeScript coverage
-- Strict type checking enabled
-- Custom type definitions for all interfaces
-
-## 🚀 Deployment
-
-### Docker (Optional)
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY dist/ ./dist/
-EXPOSE 3001
-CMD ["node", "dist/index.js"]
-```
-
 ### Build Process
+
 ```bash
 npm run build  # Compiles TypeScript to JavaScript in dist/
 ```

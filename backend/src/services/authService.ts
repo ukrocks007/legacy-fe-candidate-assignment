@@ -1,5 +1,5 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { recoverPersonalSignature } from '@metamask/eth-sig-util';
+import { ethers } from 'ethers';
 import { JWTPayload, User } from '../types';
 import { config } from '../config';
 import { userService } from './userService';
@@ -89,10 +89,7 @@ Sign this message to authenticate with our application.`;
       }
 
       // Recover the address from the signature
-      const recoveredAddress = recoverPersonalSignature({
-        data: message,
-        signature: signature,
-      });
+      const recoveredAddress = ethers.verifyMessage(message, signature);
 
       // Verify the recovered address matches the wallet address
       if (recoveredAddress.toLowerCase() !== walletAddress.toLowerCase()) {

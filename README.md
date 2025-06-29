@@ -13,6 +13,7 @@ A full-stack Web3 application that allows users to authenticate with Dynamic.xyz
 ## 🎯 Features
 
 ### Core Features
+
 - 🔑 **Dynamic.xyz Authentication**: Seamless wallet connection with embedded wallets and multi-provider support
 - ✍️ **Message Signing**: Sign custom messages with connected wallet using ethers.js
 - ✅ **Signature Verification**: Real-time backend verification with comprehensive validation
@@ -20,6 +21,7 @@ A full-stack Web3 application that allows users to authenticate with Dynamic.xyz
 - 📝 **Message History**: Persistent local storage with message management and re-verification
 
 ### Security & Authentication
+
 - 🔒 **Multi-Factor Authentication (MFA)**: Complete headless MFA implementation with Dynamic.xyz
   - QR code setup for authenticator apps (Google Authenticator, Authy, etc.)
   - TOTP (Time-based One-Time Password) verification
@@ -29,6 +31,7 @@ A full-stack Web3 application that allows users to authenticate with Dynamic.xyz
 - 🔐 **Wallet Integration**: Support for multiple wallet types with automatic chain detection
 
 ### User Experience
+
 - 🎨 **Modern Interface**: Clean, intuitive design with particle background effects
 - 🌓 **Theme Support**: Comprehensive dark/light mode with system preference detection
 - 🔄 **Health Monitoring**: Real-time backend health checks with status indicators
@@ -36,6 +39,7 @@ A full-stack Web3 application that allows users to authenticate with Dynamic.xyz
 - 👤 **Profile Management**: User settings, account information, and security preferences
 
 ### Development & Testing
+
 - 🧪 **Comprehensive Testing**: Full test suite with 15+ passing tests covering API and services
 - 🐳 **Docker Support**: Complete containerization setup for easy deployment
 - 🚀 **Modern Tooling**: Vite, ESLint, Prettier, TypeScript, and hot reload
@@ -227,6 +231,7 @@ Content-Type: application/json
 ## 🛡️ Security Features
 
 ### Authentication & Authorization
+
 - **Dynamic.xyz Integration**: Secure wallet-based authentication with embedded wallet support
 - **Multi-Factor Authentication**: Complete headless MFA implementation
   - TOTP (Time-based One-Time Password) verification
@@ -236,6 +241,7 @@ Content-Type: application/json
 - **Session Management**: Secure session handling with automatic cleanup
 
 ### API Security
+
 - **CORS Protection**: Configurable cross-origin resource sharing
 - **Rate Limiting**: Configurable rate limiting per IP
 - **Input Validation**: Comprehensive request validation using express-validator
@@ -244,48 +250,12 @@ Content-Type: application/json
 
 ## 🧪 Testing
 
-The project includes comprehensive testing coverage across multiple layers:
-
-### Backend Testing (15 Tests Passing)
-
-**API Integration Tests** (`api.test.ts`):
-- POST `/verify-signature` endpoint validation
-- Missing parameter handling (message, signature)
-- Invalid signature format detection
-- Valid signature verification flow
-- GET `/health` endpoint functionality
-- 404 error handling for unknown routes
-
-**Service Unit Tests** (`signatureService.test.ts`):
-- Signature verification logic
-- Message hash generation
-- Error handling for invalid inputs
-- Edge cases and boundary conditions
-
-### Test Commands
+The project includes comprehensive testing coverage across multiple layers.
 
 ```bash
-# Run all tests
+# Run all tests frontend + backend
 npm test
-
-# Run backend tests only
-cd backend && npm test
-
-# Run tests in watch mode (development)
-cd backend && npm run test:watch
-
-# Run tests with coverage (if configured)
-cd backend && npm run test:coverage
 ```
-
-### Test Coverage Areas
-
-- ✅ **API Endpoints**: All REST API endpoints tested
-- ✅ **Input Validation**: Comprehensive validation testing
-- ✅ **Error Handling**: Error scenarios and edge cases
-- ✅ **Service Logic**: Core business logic verification
-- ✅ **Security**: Rate limiting and CORS validation
-- ✅ **Health Checks**: System health monitoring
 
 ## 🚀 Deployment
 
