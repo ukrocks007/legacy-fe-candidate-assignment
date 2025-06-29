@@ -1,6 +1,12 @@
 # Take-Home Task: **Web3 Message Signer & Verifier**
 React + Dynamic.xyz Headless Implementation (Frontend) | Node.js + Express (Backend)
 
+
+
+https://github.com/user-attachments/assets/ac03468a-b89b-4b30-bd00-bf60cc02066c
+
+
+
 ## 🎯 Objective
 Build a full-stack Web3 app that allows a user to:
 1. Authenticate using a **Dynamic.xyz embedded wallet headless implementation https://docs.dynamic.xyz/headless/headless-email**
