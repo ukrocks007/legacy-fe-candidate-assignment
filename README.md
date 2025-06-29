@@ -1,4 +1,4 @@
-# Web3 Message Signer & Verifier 🔐
+## Web3 Message Signer & Verifier 🔐
 
 A full-stack Web3 application that allows users to authenticate with Dynamic.xyz embedded wallets, sign custom messages, and verify signatures on the backend.
 
@@ -252,27 +252,6 @@ cd backend && npm run test:watch
 - 🔄 **Real-time Updates**: WebSocket for live updates
 - 🎨 **Advanced UI**: More interactive animations
 - 🔐 **Role-based Access**: User permissions system
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-If you encounter any issues:
-
-1. Check the [Issues](https://github.com/DM-SaaS/legacy-fe-candidate-assignment/issues) page
-2. Review the setup instructions above
-3. Ensure all environment variables are set correctly
-4. Verify Dynamic.xyz configuration
 
 ---
 
