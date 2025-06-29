@@ -60,21 +60,33 @@ https://github.com/user-attachments/assets/ac03468a-b89b-4b30-bd00-bf60cc02066c
 - **Git** for cloning the repository
 - **Docker** (optional) for containerized deployment
 
-### 1. Clone the Repository
+### Clone the Repository
 
 ```bash
 git clone https://github.com/ukrocks007/legacy-fe-candidate-assignment.git
 cd legacy-fe-candidate-assignment
 ```
 
-### 2. Install Dependencies
+### Quick Start Script
+
+```bash
+# Recommended to run the quick-start script to set up your environment
+chmod +x quick-start.sh
+# Ensure you have your Dynamic.xyz Environment ID ready
+# Run quick-start script
+./quick-start.sh your_dynamic_environment_id_here
+```
+
+### Manual Setup Steps
+
+#### 1. Install Dependencies
 
 ```bash
 # Install dependencies for both frontend and backend
 npm run install:all
 ```
 
-### 3. Environment Configuration
+#### 2. Environment Configuration
 
 #### Backend Environment
 
@@ -108,7 +120,7 @@ VITE_DYNAMIC_ENVIRONMENT_ID=your_dynamic_environment_id_here
 VITE_API_BASE_URL=http://localhost:3001
 ```
 
-### 4. Dynamic.xyz Setup
+#### 3. Dynamic.xyz Setup
 
 1. Create account at [Dynamic.xyz](https://app.dynamic.xyz/)
 2. Create a new project and configure settings:
@@ -120,7 +132,7 @@ VITE_API_BASE_URL=http://localhost:3001
 5. Configure allowed origins for CORS in Dynamic dashboard
 6. Test wallet connection in Dynamic's developer console
 
-### 5. Run the Application
+#### 4. Run the Application
 
 #### Option A: Development Mode
 

@@ -17,8 +17,7 @@
     "docker:build": "docker-compose build",
     "docker:up": "docker-compose up",
     "docker:down": "docker-compose down",
-    "deploy:vercel": "cd frontend && vercel --prod",
-    "setup": "npm run install:all && echo 'Setup complete! Run npm run dev to start'"
+    "deploy:vercel": "cd frontend && vercel --prod"
   },
   "private": true,
   "devDependencies": {
