@@ -277,11 +277,10 @@ npm test
 
 ## 📝 Trade-offs & Improvements
 
-### Current Implementation
+### Current Implementation (Trade-offs)
 
 - ✅ **localStorage**: Simple persistence, works offline
-- ✅ **In-memory state**: Fast, no database complexity
-- ✅ **Client-side signing**: Secure, private keys never leave wallet
+- ✅ **In-memory session**: Fast, no database complexity
 
 ### Future Improvements
 
