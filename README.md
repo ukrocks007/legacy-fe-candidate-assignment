@@ -301,7 +301,7 @@ cd backend && npm run test:coverage
 
 **Live Demo**: [https://web3-verifier-backend.onrender.com](https://web3-verifier-backend.onrender.com)
 
-1. Connect repository to Railway or Render
+1. Connect repository to Render
 2. Set environment variables
 3. Deploy backend service
 
@@ -316,8 +316,8 @@ cd backend && npm run test:coverage
 ### Future Improvements
 
 - 🔄 **Database Integration**: For production message history
-- � **Analytics**: Message signing analytics
-- � **Real-time Updates**: WebSocket for live updates
+- 📊 **Analytics**: Message signing analytics
+- ⚡ **Real-time Updates**: WebSocket for live updates
 - 🎨 **Advanced UI**: More interactive animations
 - 🔐 **Role-based Access**: User permissions system
 
