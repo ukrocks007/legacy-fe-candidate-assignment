@@ -224,13 +224,13 @@ cd backend && npm run test:watch
 
 **Live Demo**: [https://web3-signer-verifier.vercel.app/](https://web3-signer-verifier.vercel.app/)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/DM-SaaS/legacy-fe-candidate-assignment)
-
 1. Connect your GitHub repository to Vercel
 2. Set environment variables in Vercel dashboard
 3. Deploy automatically on push to main
 
-### Backend (Railway/Render)
+### Backend (Render)
+
+**Live Demo**: [https://web3-verifier-backend.onrender.com](https://web3-verifier-backend.onrender.com)
 
 1. Connect repository to Railway or Render
 2. Set environment variables
@@ -247,7 +247,6 @@ cd backend && npm run test:watch
 ### Future Improvements
 
 - 🔄 **Database Integration**: For production message history
-- 🌐 **Multi-chain Support**: Support for other blockchains
 - 📊 **Analytics**: Message signing analytics
 - 🔄 **Real-time Updates**: WebSocket for live updates
 - 🎨 **Advanced UI**: More interactive animations
