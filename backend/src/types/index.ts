@@ -59,9 +59,11 @@ export interface JWTPayload {
   exp?: number;
 }
 
+// Extend Express Request to include user property and ensure headers are available
 export interface AuthenticatedRequest extends Request {
   user?: {
     id: string;
     walletAddress: string;
   };
+  headers: Request['headers'];
 }
