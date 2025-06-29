@@ -2,6 +2,8 @@
 
 A full-stack Web3 application that allows users to authenticate with Dynamic.xyz embedded wallets, sign custom messages, and verify signatures on the backend with comprehensive MFA support and modern UI features.
 
+https://github.com/user-attachments/assets/ac03468a-b89b-4b30-bd00-bf60cc02066c
+
 ![Web3 Message Signer](https://img.shields.io/badge/Web3-Message_Signer-blue)
 ![React](https://img.shields.io/badge/React-19.1.0-61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-3178C6)
