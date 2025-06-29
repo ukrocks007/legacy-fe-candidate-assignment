@@ -1,36 +1,59 @@
 ## Web3 Message Signer & Verifier 🔐
 
-A full-stack Web3 application that allows users to authenticate with Dynamic.xyz embedded wallets, sign custom messages, and verify signatures on the backend.
+A full-stack Web3 application that allows users to authenticate with Dynamic.xyz embedded wallets, sign custom messages, and verify signatures on the backend with comprehensive MFA support and modern UI features.
 
 ![Web3 Message Signer](https://img.shields.io/badge/Web3-Message_Signer-blue)
 ![React](https://img.shields.io/badge/React-19.1.0-61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-3178C6)
 ![Express](https://img.shields.io/badge/Express-4.18.2-000000)
 ![Dynamic.xyz](https://img.shields.io/badge/Dynamic.xyz-4.20.9-purple)
+![Vite](https://img.shields.io/badge/Vite-7.0.0-646CFF)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1.11-38B2AC)
 
 ## 🎯 Features
 
-- 🔑 **Dynamic.xyz Authentication**: Seamless wallet connection with embedded wallets
-- ✍️ **Message Signing**: Sign custom messages with connected wallet
-- ✅ **Signature Verification**: Backend verification using ethers.js
-- 📱 **Responsive UI**: Beautiful design with Tailwind CSS and dark mode
-- 📝 **Message History**: Persistent local history with localStorage
-- 🔒 **Multi-Factor Auth**: Enhanced security with Dynamic.xyz headless MFA
-- 🧪 **Comprehensive Testing**: Full test suite with 15+ passing tests
-- 🐳 **Docker Support**: Complete containerization setup
+### Core Features
+- 🔑 **Dynamic.xyz Authentication**: Seamless wallet connection with embedded wallets and multi-provider support
+- ✍️ **Message Signing**: Sign custom messages with connected wallet using ethers.js
+- ✅ **Signature Verification**: Real-time backend verification with comprehensive validation
+- 📱 **Responsive UI**: Beautiful design with Tailwind CSS, dark/light mode, and modern components
+- 📝 **Message History**: Persistent local storage with message management and re-verification
+
+### Security & Authentication
+- 🔒 **Multi-Factor Authentication (MFA)**: Complete headless MFA implementation with Dynamic.xyz
+  - QR code setup for authenticator apps (Google Authenticator, Authy, etc.)
+  - TOTP (Time-based One-Time Password) verification
+  - Backup recovery codes generation and management
+  - Device management (add, verify, delete devices)
+- 🛡️ **Enhanced Security**: Rate limiting, CORS protection, helmet security headers
+- 🔐 **Wallet Integration**: Support for multiple wallet types with automatic chain detection
+
+### User Experience
+- 🎨 **Modern Interface**: Clean, intuitive design with particle background effects
+- 🌓 **Theme Support**: Comprehensive dark/light mode with system preference detection
+- 🔄 **Health Monitoring**: Real-time backend health checks with status indicators
+- 📊 **Dashboard Analytics**: Quick stats, message history, and account overview
+- 👤 **Profile Management**: User settings, account information, and security preferences
+
+### Development & Testing
+- 🧪 **Comprehensive Testing**: Full test suite with 15+ passing tests covering API and services
+- 🐳 **Docker Support**: Complete containerization setup for easy deployment
+- 🚀 **Modern Tooling**: Vite, ESLint, Prettier, TypeScript, and hot reload
+- 📦 **Monorepo Structure**: Organized workspace with frontend/backend separation
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 - **Node.js** 18.0+ and npm
-- **Dynamic.xyz Account** for environment ID
+- **Dynamic.xyz Account** for environment ID and MFA configuration
 - **Git** for cloning the repository
+- **Docker** (optional) for containerized deployment
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/DM-SaaS/legacy-fe-candidate-assignment.git
+git clone https://github.com/ukrocks007/legacy-fe-candidate-assignment.git
 cd legacy-fe-candidate-assignment
 ```
 
@@ -39,6 +62,10 @@ cd legacy-fe-candidate-assignment
 ```bash
 # Install dependencies for both frontend and backend
 npm run install:all
+
+# Or install individually:
+npm run install:backend  # Backend dependencies only
+npm run install:frontend # Frontend dependencies only
 ```
 
 ### 3. Environment Configuration
@@ -78,11 +105,14 @@ VITE_API_BASE_URL=http://localhost:3001
 ### 4. Dynamic.xyz Setup
 
 1. Create account at [Dynamic.xyz](https://app.dynamic.xyz/)
-2. Create a new project
+2. Create a new project and configure settings:
+   - **Wallet Connectors**: Enable Ethereum wallet connectors
+   - **Multi-Factor Authentication**: Enable headless MFA from Settings > Security
+   - **Authentication**: Configure embedded wallet options
 3. Copy your Environment ID from the dashboard
 4. Paste it in `frontend/.env` as `VITE_DYNAMIC_ENVIRONMENT_ID`
-5. Configure wallet connectors (Ethereum) in Dynamic dashboard
-6. Enable Multi Factor Auth from Settings
+5. Configure allowed origins for CORS in Dynamic dashboard
+6. Test wallet connection in Dynamic's developer console
 
 ### 5. Run the Application
 
@@ -122,46 +152,47 @@ cd backend && npm test
 
 ### 1. Connect Wallet
 
-- Click "Connect Wallet" button
-- Choose your preferred wallet option
-- Complete Dynamic.xyz authentication
+- Visit the landing page and click "Connect Wallet"
+- Choose your preferred wallet provider (MetaMask, WalletConnect, etc.)
+- Complete Dynamic.xyz authentication flow
+- Your wallet address and connection status will be displayed
 
-### 2. Sign Messages
+### 2. Dashboard Overview
 
-- Enter your custom message in the text area
-- Click "Sign Message"
+- **Quick Stats**: View total signed messages and session information
+- **Health Status**: Monitor backend connectivity with real-time health checks
+- **Theme Toggle**: Switch between light and dark modes
+- **Navigation**: Access Dashboard, Profile, and sign out options
+
+### 3. Sign Messages
+
+- Navigate to the Dashboard
+- Enter your custom message in the text area (supports multi-line text)
+- Click "Sign & Verify Message" to initiate the signing process
 - Approve the signature request in your wallet
+- View immediate verification results with signer address
 
-### 3. View Results
+### 4. Message History
 
-- See signature verification results immediately
-- Check message history in the history panel
-- Re-verify any previous signatures
+- All signed messages are automatically saved to local storage
+- View complete history with timestamps and verification status
+- Clear entire history from Dashboard or Profile settings if needed
 
-## 🏗️ Project Structure
+### 5. Multi-Factor Authentication Setup
 
-```
-├── frontend/                 # React + TypeScript frontend
-│   ├── src/
-│   │   ├── components/      # React components
-│   │   ├── hooks/          # Custom React hooks
-│   │   ├── types/          # TypeScript definitions
-│   │   └── config/         # Configuration files
-│   ├── public/             # Static assets
-│   └── package.json
-├── backend/                 # Node.js + Express backend
-│   ├── src/
-│   │   ├── controllers/    # Request handlers
-│   │   ├── services/       # Business logic
-│   │   ├── middleware/     # Express middleware
-│   │   ├── routes/         # API routes
-│   │   ├── validators/     # Input validation
-│   │   ├── types/          # TypeScript definitions
-│   │   └── __tests__/      # Test files
-│   └── package.json
-├── docker-compose.yml       # Docker configuration
-└── README.md               # This file
-```
+- Go to Profile > Multi-Factor Authentication section
+- Click "Add New Device" to set up MFA
+- Scan the QR code with your authenticator app (Google Authenticator, Authy, 1Password, etc.)
+- Enter the 6-digit verification code to complete setup
+- Save backup recovery codes securely
+- Manage multiple devices and regenerate recovery codes as needed
+
+### 6. Profile Management
+
+- **Account Information**: View wallet address, type, and chain details
+- **Security Settings**: Configure MFA devices and backup codes
+- **Account Actions**: Clear message history and manage preferences
+- **Theme Preferences**: Automatic theme detection with manual override
 
 ## 🔌 API Endpoints
 
@@ -195,29 +226,66 @@ Content-Type: application/json
 
 ## 🛡️ Security Features
 
-- **CORS Protection**: Configurable origins
-- **Rate Limiting**: 100 requests per 15 minutes
-- **Input Validation**: Comprehensive request validation
-- **Helmet Security**: Security headers
-- **Error Sanitization**: Safe error responses
-- **Multi-Factor Authentication**: Dynamic.xyz headless MFA support
+### Authentication & Authorization
+- **Dynamic.xyz Integration**: Secure wallet-based authentication with embedded wallet support
+- **Multi-Factor Authentication**: Complete headless MFA implementation
+  - TOTP (Time-based One-Time Password) verification
+  - QR code setup for authenticator apps
+  - Backup recovery codes with secure generation
+  - Multiple device management and verification
+- **Session Management**: Secure session handling with automatic cleanup
+
+### API Security
+- **CORS Protection**: Configurable cross-origin resource sharing
+- **Rate Limiting**: Configurable rate limiting per IP
+- **Input Validation**: Comprehensive request validation using express-validator
+- **Helmet Security**: Security headers for XSS, CSRF, and clickjacking protection
+- **Error Sanitization**: Safe error responses without sensitive information leakage
 
 ## 🧪 Testing
 
-The project includes comprehensive testing:
+The project includes comprehensive testing coverage across multiple layers:
 
-- **API Tests**: Integration tests for all endpoints
-- **Service Tests**: Unit tests for business logic
-- **Validation Tests**: Input validation testing
-- **Error Handling**: Error scenario coverage
+### Backend Testing (15 Tests Passing)
+
+**API Integration Tests** (`api.test.ts`):
+- POST `/verify-signature` endpoint validation
+- Missing parameter handling (message, signature)
+- Invalid signature format detection
+- Valid signature verification flow
+- GET `/health` endpoint functionality
+- 404 error handling for unknown routes
+
+**Service Unit Tests** (`signatureService.test.ts`):
+- Signature verification logic
+- Message hash generation
+- Error handling for invalid inputs
+- Edge cases and boundary conditions
+
+### Test Commands
 
 ```bash
 # Run all tests
 npm test
 
-# Run tests in watch mode
+# Run backend tests only
+cd backend && npm test
+
+# Run tests in watch mode (development)
 cd backend && npm run test:watch
+
+# Run tests with coverage (if configured)
+cd backend && npm run test:coverage
 ```
+
+### Test Coverage Areas
+
+- ✅ **API Endpoints**: All REST API endpoints tested
+- ✅ **Input Validation**: Comprehensive validation testing
+- ✅ **Error Handling**: Error scenarios and edge cases
+- ✅ **Service Logic**: Core business logic verification
+- ✅ **Security**: Rate limiting and CORS validation
+- ✅ **Health Checks**: System health monitoring
 
 ## 🚀 Deployment
 
@@ -248,8 +316,8 @@ cd backend && npm run test:watch
 ### Future Improvements
 
 - 🔄 **Database Integration**: For production message history
-- 📊 **Analytics**: Message signing analytics
-- 🔄 **Real-time Updates**: WebSocket for live updates
+- � **Analytics**: Message signing analytics
+- � **Real-time Updates**: WebSocket for live updates
 - 🎨 **Advanced UI**: More interactive animations
 - 🔐 **Role-based Access**: User permissions system
 
