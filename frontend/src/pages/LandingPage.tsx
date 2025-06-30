@@ -7,6 +7,7 @@ import { useBackendHealth } from '../hooks/useBackendHealth';
 import { useAuth } from '../contexts/AuthContext';
 import ParticlesBackground from '../components/ParticlesBackground';
 import AuthenticationBanner from '../components/AuthenticationBanner';
+import BackendAvailabilityBanner from '../components/BackendAvailabilityBanner';
 
 const LandingPage: React.FC = () => {
   const { user, primaryWallet } = useDynamicContext();
@@ -27,6 +28,9 @@ const LandingPage: React.FC = () => {
 
       <div className='min-h-full flex items-center justify-center relative z-10'>
         <div className='max-w-md w-full'>
+          {/* Backend Availability Banner */}
+          <BackendAvailabilityBanner />
+
           {/* Hero Section */}
           <div className='text-center mb-8'>
             <div className='mb-6'>
