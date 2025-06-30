@@ -2,6 +2,10 @@
 
 A full-stack Web3 application that allows users to authenticate with Dynamic.xyz embedded wallets, sign custom messages, and verify signatures on the backend with comprehensive MFA support and modern UI features.
 
+Works on mobile and desktop, providing a seamless user experience.
+
+**Live Demo**: [https://web3-signer-verifier.vercel.app/](https://web3-signer-verifier.vercel.app/)
+
 https://github.com/user-attachments/assets/ac03468a-b89b-4b30-bd00-bf60cc02066c
 
 ![Web3 Message Signer](https://img.shields.io/badge/Web3-Message_Signer-blue)
@@ -56,25 +60,33 @@ https://github.com/user-attachments/assets/ac03468a-b89b-4b30-bd00-bf60cc02066c
 - **Git** for cloning the repository
 - **Docker** (optional) for containerized deployment
 
-### 1. Clone the Repository
+### Clone the Repository
 
 ```bash
 git clone https://github.com/ukrocks007/legacy-fe-candidate-assignment.git
 cd legacy-fe-candidate-assignment
 ```
 
-### 2. Install Dependencies
+### Quick Start Script
+
+```bash
+# Recommended to run the quick-start script to set up your environment
+chmod +x quick-start.sh
+# Ensure you have your Dynamic.xyz Environment ID ready
+# Run quick-start script
+./quick-start.sh your_dynamic_environment_id_here
+```
+
+### Manual Setup Steps
+
+#### 1. Install Dependencies
 
 ```bash
 # Install dependencies for both frontend and backend
 npm run install:all
-
-# Or install individually:
-npm run install:backend  # Backend dependencies only
-npm run install:frontend # Frontend dependencies only
 ```
 
-### 3. Environment Configuration
+#### 2. Environment Configuration
 
 #### Backend Environment
 
@@ -108,7 +120,7 @@ VITE_DYNAMIC_ENVIRONMENT_ID=your_dynamic_environment_id_here
 VITE_API_BASE_URL=http://localhost:3001
 ```
 
-### 4. Dynamic.xyz Setup
+#### 3. Dynamic.xyz Setup
 
 1. Create account at [Dynamic.xyz](https://app.dynamic.xyz/)
 2. Create a new project and configure settings:
@@ -120,14 +132,16 @@ VITE_API_BASE_URL=http://localhost:3001
 5. Configure allowed origins for CORS in Dynamic dashboard
 6. Test wallet connection in Dynamic's developer console
 
-### 5. Run the Application
+#### 4. Run the Application
 
 #### Option A: Development Mode
 
 ```bash
-# Start both frontend and backend
+# Start both frontend and backend from the root directory
 npm run dev
+```
 
+```bash
 # Or run individually:
 npm run dev:backend  # Backend on http://localhost:3001
 npm run dev:frontend # Frontend on http://localhost:5173
@@ -142,16 +156,6 @@ npm run docker:up
 
 # Frontend: http://localhost:3000
 # Backend: http://localhost:3001
-```
-
-### 6. Run Tests
-
-```bash
-# Run all tests
-npm test
-
-# Backend tests only
-cd backend && npm test
 ```
 
 ## 📖 Usage Guide
@@ -281,12 +285,12 @@ npm test
 
 ### Current Implementation (Trade-offs)
 
-- ✅ **localStorage**: Simple persistence, works offline
-- ✅ **In-memory session**: Fast, no database complexity
+- ❌ **No persistent storage**: Message history is lost when the user clears browser data or switches devices
+- ❌ **Limited scalability**: In-memory session may not scale well for large user bases
 
 ### Future Improvements
 
-- 🔄 **Database Integration**: For production message history
+- 🔄 **Database Integration**: For production message history, user info & sessions
 - 📊 **Analytics**: Message signing analytics
 - ⚡ **Real-time Updates**: WebSocket for live updates
 - 🎨 **Advanced UI**: More interactive animations
