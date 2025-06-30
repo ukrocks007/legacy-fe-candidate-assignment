@@ -8,16 +8,14 @@ const AuthenticationBanner: React.FC = () => {
   const {
     isAuthenticated,
     authenticateWithWallet,
-    isLoading,
     error,
     clearError,
   } = useAuth();
-
   // Don't show banner if fully authenticated
   if (primaryWallet && user && isAuthenticated) {
     return null;
   }
-
+  const [isLoading, setIsLoading] = React.useState(false);
   // Show wallet connection prompt if no wallet
   if (!primaryWallet || !user) {
     return (
@@ -64,12 +62,17 @@ const AuthenticationBanner: React.FC = () => {
           <button
             onClick={() => {
               clearError();
-              authenticateWithWallet();
+              setIsLoading(true);
+              authenticateWithWallet().finally(() => setIsLoading(false));
             }}
             disabled={isLoading}
             className='flex items-center space-x-2 bg-yellow-500 hover:bg-yellow-600 disabled:bg-yellow-300 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors'
           >
-            <Shield className='w-8 h-8' />
+            {isLoading ? (
+              <div className='w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3'></div>
+            ) : (
+              <Shield className='w-8 h-8' />
+            )}
             <span>
               {isLoading ? 'Authenticating...' : 'Sign Message to Authenticate'}
             </span>
